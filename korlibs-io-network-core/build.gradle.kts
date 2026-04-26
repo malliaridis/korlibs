@@ -50,6 +50,7 @@ kotlin {
     watchosArm32()
     watchosDeviceArm64()
     watchosSimulatorArm64()
+    // TODO Make applyAllTargets configurable to include these configurations
     mingwX64 {
         compilations.getByName("main") {
             cinterops {

@@ -1,12 +1,12 @@
 import com.android.build.gradle.internal.tasks.factory.dependsOn
+import korlibs.gradle.applyAllTargets
 import org.gradle.internal.extensions.stdlib.capitalized
 import org.gradle.kotlin.dsl.withType
-import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
-import org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
 
 plugins {
+    id("org.korge.korlibs.gradle.conventions")
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.kotlinx.kover)
@@ -15,53 +15,11 @@ plugins {
 }
 
 kotlin {
-    applyDefaultHierarchyTemplate()
-    @OptIn(ExperimentalAbiValidation::class)
-    abiValidation {
-        enabled.set(true)
-    }
-
-    jvm()
-
-    android {
-        namespace = "org.korge.korlibs.io"
-        compileSdk = libs.versions.compileSdk.get().toInt()
-        minSdk = libs.versions.minSdk.get().toInt()
-
-        androidResources.enable = true
-
-        withHostTest {}
-    }
-    js {
-        browser {
-            compilerOptions {
-                target.set("es2015")
-            }
-        }
-    }
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser {
-            compilerOptions {
-                target.set("es2015")
-            }
-        }
-    }
-
-    iosArm64()
-    iosSimulatorArm64()
-    iosX64()
-    tvosArm64()
-    tvosSimulatorArm64()
-    watchosArm64()
-    watchosArm32()
-    watchosDeviceArm64()
-    watchosSimulatorArm64()
-    mingwX64()
-    linuxX64()
-    linuxArm64()
-    macosArm64()
-    // TODO Add android native targets as well
+    applyAllTargets(
+        namespace = "org.korge.korlibs.io",
+        compileSdk = libs.versions.compileSdk.get().toInt(),
+        minSdk = libs.versions.minSdk.get().toInt(),
+    )
 
     sourceSets {
         commonMain.dependencies {
@@ -97,10 +55,6 @@ kotlin {
             dependsOn(nativeMain.get())
         }
 
-        val jvmAndAndroidMain by creating {
-            dependsOn(commonMain.get())
-        }
-
         nativeMain {
             dependsOn(concurrentMain)
         }
@@ -114,12 +68,10 @@ kotlin {
         }
 
         jvmMain {
-            dependsOn(jvmAndAndroidMain)
             dependsOn(concurrentMain)
         }
 
         androidMain {
-            dependsOn(jvmAndAndroidMain)
             dependsOn(concurrentMain)
         }
 
@@ -127,18 +79,6 @@ kotlin {
             implementation(projects.korlibsTime)
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
-        }
-
-        val jvmAndAndroidTest by creating {
-            dependsOn(commonTest.get())
-        }
-
-        jvmTest {
-            dependsOn(jvmAndAndroidTest)
-        }
-
-        getByName("androidHostTest") {
-            dependsOn(jvmAndAndroidTest)
         }
     }
 }
