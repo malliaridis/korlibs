@@ -14,7 +14,7 @@ class BmpSliceTest {
 
     @Test
     fun testName() = doTest {
-        val slice = resourcesVfs["rgba.png"].readBitmapSlice(name = "hello", props = props)
+        val slice = resourcesVfs["res/rgba.png"].readBitmapSlice(name = "hello", props = props)
         assertEquals("hello", slice.name)
         assertEquals(SizeInt(4, 1), slice.bounds.size)
     }
@@ -22,7 +22,7 @@ class BmpSliceTest {
     @Test
     fun testPacking() = doTest {
         val atlas = AtlasPacker.pack(listOf(
-            resourcesVfs["rgba.png"].readBitmapSlice(name = "hello", props = props)
+            resourcesVfs["res/rgba.png"].readBitmapSlice(name = "hello", props = props)
         ))
         val slice = atlas["hello"]
         assertEquals("hello", slice.name)
@@ -32,7 +32,7 @@ class BmpSliceTest {
     @Test
     fun testPackingMutable() = doTest {
         val atlas = MutableAtlasUnit()
-        resourcesVfs["rgba.png"].readBitmapSlice(atlas = atlas, name = "hello", props = props)
+        resourcesVfs["res/rgba.png"].readBitmapSlice(atlas = atlas, name = "hello", props = props)
         val slice = atlas["hello"]
         assertEquals("hello", slice.name)
         assertEquals(SizeInt(4, 1), slice.bounds.size)

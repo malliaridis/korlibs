@@ -10,7 +10,7 @@ class AtlasInfoTest {
     /* This test is reading a sprite atlas which was created by Aseprite version 1.2.24
      */
     fun name() = suspendTest({ Platform.isJvm }) {
-        val atlas = resourcesVfs["atlas_info_aseprite_test.json"].readAtlas()
+        val atlas = resourcesVfs["res/atlas_info_aseprite_test.json"].readAtlas()
         // Check for layer info
         assertEquals("layer3d", atlas.info.meta.layers[0].name)
         assertEquals("layer_9", atlas.info.meta.layers[10].name)

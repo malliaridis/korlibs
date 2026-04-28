@@ -18,11 +18,11 @@ class CaseSensitiveTest {
     @Test fun testLocalVfsFolderAsync() = suspendTest(cond = condLocal, preferSyncIo = false) { _testLocalVfsFolder() }
 
     private suspend fun _testResourcesVfs() {
-        assertEquals(false, resourcesVfs["file-not-exists.file.bin"].exists(), "File that doesn't' exists shouldn't exist")
-        assertEquals(false, resourcesVfs["resource.TXT"].exists(), "File with right case sensitivity shouldn't exist")
-        assertEquals(true, resourcesVfs["resource.txt"].exists(), "File with proper case, should exist")
-        assertEquals(5, resourcesVfs["resource.txt"].readBytes().size, "File can be read properly")
-        assertFails(message = "File with improper case sensitivity shouldn't be able to read") { resourcesVfs["resource.Txt"].readBytes().size }
+        assertEquals(false, resourcesVfs["res/file-not-exists.file.bin"].exists(), "File that doesn't' exists shouldn't exist")
+        assertEquals(false, resourcesVfs["res/resource.TXT"].exists(), "File with right case sensitivity shouldn't exist")
+        assertEquals(true, resourcesVfs["res/resource.txt"].exists(), "File with proper case, should exist")
+        assertEquals(5, resourcesVfs["res/resource.txt"].readBytes().size, "File can be read properly")
+        assertFails(message = "File with improper case sensitivity shouldn't be able to read") { resourcesVfs["res/resource.Txt"].readBytes().size }
     }
 
     private suspend fun _testLocalVfs() {

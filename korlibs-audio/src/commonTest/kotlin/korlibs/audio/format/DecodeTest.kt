@@ -16,7 +16,7 @@ class DecodeTest {
 
     @kotlin.test.Test
     fun wav() = suspendTest({ doIOTest }) {
-        val wavContents = resourcesVfs["wav1.wav"].read()
+        val wavContents = resourcesVfs["res/wav1.wav"].read()
         assertEquals(44144, wavContents.size, "wavContents.size")
         assertEquals(0x901751CE.toInt(), wavContents.checksum(CRC32), "wavContents.crc32")
 
@@ -31,7 +31,7 @@ class DecodeTest {
 
     @kotlin.test.Test
     fun wav24() = suspendTest({ doIOTest }) {
-        val wavContents = resourcesVfs["wav24.wav"].read()
+        val wavContents = resourcesVfs["res/wav24.wav"].read()
         val wavData = formats.decode(wavContents.openAsync())!!
 
         assertEquals("AudioData(rate=48000, channels=1, samples=4120)", "$wavData")
@@ -43,7 +43,7 @@ class DecodeTest {
 
     @kotlin.test.Test
     fun wav8bit() = suspendTest({ doIOTest }) {
-        val wavContents = resourcesVfs["wav8bit.wav"].read()
+        val wavContents = resourcesVfs["res/wav8bit.wav"].read()
         val wavData = formats.decode(wavContents.openAsync())!!
 
         assertEquals("AudioData(rate=44100, channels=2, samples=22050)", "$wavData")

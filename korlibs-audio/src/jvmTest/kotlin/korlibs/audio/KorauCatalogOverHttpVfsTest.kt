@@ -29,7 +29,7 @@ class KorauCatalogOverHttpVfsTest {
                             {"name": "placeholder.mp3", "size": 36072, "modifiedTime": 0, "createTime": 0, "isDirectory": false},
                         ]"""
                     }
-                    this["placeholder.mp3"] = resourcesVfs["placeholder.mp3"].readBytes()
+                    this["placeholder.mp3"] = resourcesVfs["res/placeholder.mp3"].readBytes()
                 }))
             }
         }

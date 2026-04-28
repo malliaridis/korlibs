@@ -4,7 +4,7 @@ class PlaySoundNativeTest {
     //@Test
     //fun test() = suspendTest {
     //    coroutineScope {
-    //        val sound = resourcesVfs["mp31.mp3"].readSound()
+    //        val sound = resourcesVfs["res/mp31.mp3"].readSound()
     //        launchAsap {
     //            sound.playAndWait()
     //        }

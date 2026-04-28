@@ -15,8 +15,8 @@ class ReadNativeImageNativeFormat {
     @Test
     fun testNativeImageShouldBeConsistentPerPlatform() = doTest {
         val bmp0 = nativeImageFormatProvider.create(1, 1, null)
-        val bmp1 = resourcesVfs["bubble-chat.9.png"].readNativeImage()
-        val bmp2 = resourcesVfs["bubble-chat.9.png"].readNativeImage(ImageDecodingProps(asumePremultiplied = true))
+        val bmp1 = resourcesVfs["res/bubble-chat.9.png"].readNativeImage()
+        val bmp2 = resourcesVfs["res/bubble-chat.9.png"].readNativeImage(ImageDecodingProps(asumePremultiplied = true))
         val bmp3a = PNG.read(pngData).ensureNative()
         val bmp3b = PNG.read(png2Data).ensureNative()
         assertEquals(bmp0::class, bmp1::class, message = "Normal read")

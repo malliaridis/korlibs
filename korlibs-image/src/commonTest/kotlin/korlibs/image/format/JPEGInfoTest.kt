@@ -12,7 +12,7 @@ import kotlin.test.assertNotNull
 class JPEGInfoTest {
     @Test
     fun test() = doTest {
-        val header = resourcesVfs["Portrait_3.jpg"].readImageInfo(JPEGInfo)
+        val header = resourcesVfs["res/Portrait_3.jpg"].readImageInfo(JPEGInfo)
         assertNotNull(header)
         assertEquals(Size(1800, 1200), header.size)
         assertEquals(ImageOrientation.ROTATE_180, header.orientation)
@@ -20,7 +20,7 @@ class JPEGInfoTest {
 
     @Test
     fun test2() = doTest {
-        val header = resourcesVfs["exif1.jpeg"].readImageInfo(JPEGInfo)
+        val header = resourcesVfs["res/exif1.jpeg"].readImageInfo(JPEGInfo)
         assertNotNull(header)
         assertEquals(Size(3024, 4032), header.size)
         assertEquals(ImageOrientation.ROTATE_180, header.orientation)

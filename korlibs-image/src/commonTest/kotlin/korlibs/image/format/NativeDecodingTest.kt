@@ -12,7 +12,7 @@ import kotlinx.coroutines.test.*
 import kotlin.test.*
 
 class NativeDecodingTest {
-    val file = resourcesVfs["bubble-chat.9.png"]
+    val file = resourcesVfs["res/bubble-chat.9.png"]
     val colorPremult: RGBAPremultiplied = Colors["#01010181"].asPremultiplied()
     val colorPremultAlt: RGBAPremultiplied = Colors["#00000081"].asPremultiplied()
     val colorStraight: RGBA = Colors["#02020281"]
@@ -23,7 +23,7 @@ class NativeDecodingTest {
 
     @Test
     fun testNativePNGDecoding() = doTest {
-        val file = resourcesVfs["pma/spineboy-pma.png"]
+        val file = resourcesVfs["res/pma/spineboy-pma.png"]
         val bmp1 = file.readBitmapNative(props = ImageDecodingProps(premultiplied = false, asumePremultiplied = true))
         val bmp2 = file.readBitmapNoNative(props = ImageDecodingProps(premultiplied = false, asumePremultiplied = true, format = PNG))
         val diff = Bitmap32.diff(bmp1, bmp2).premultiplied().sumOf { it.a + it.r + it.g + it.b }
@@ -40,7 +40,7 @@ class NativeDecodingTest {
     fun testReadAsumePremultiplied() = doTest {
         RegisteredImageFormats.temporalRegister(PNG) {
             for (preferKotlinDecoder in listOf(false, true)) {
-                val atlas = resourcesVfs["pma/spineboy-pma.atlas"]
+                val atlas = resourcesVfs["res/pma/spineboy-pma.atlas"]
                     .readAtlas(ImageDecodingProps(premultiplied = false, asumePremultiplied = true, preferKotlinDecoder = preferKotlinDecoder))
                 val bitmaps = atlas.textures.map { it.value.bmp }.distinct()
                 assertEquals(1, bitmaps.size)
@@ -126,6 +126,6 @@ class NativeDecodingTest {
 
     @Test
     fun testNativeImageDecodedIsMutable() = doTest {
-        assertTrue { resourcesVfs["kotlin32.png"].readBitmap().flipX() is NativeImage }
+        assertTrue { resourcesVfs["res/kotlin32.png"].readBitmap().flipX() is NativeImage }
     }
 }

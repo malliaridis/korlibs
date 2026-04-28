@@ -12,7 +12,7 @@ import kotlin.test.*
 class SvgJvmTest {
     @Test
     fun test() = runTest {
-        val svg = SVG(resourcesVfs["tiger.svg"].readString())
+        val svg = SVG(resourcesVfs["res/tiger.svg"].readString())
         val bmp = svg.render()
         //bmp.writeTo("/tmp/demo.png".uniVfs, PNG)
         //svg.renderToImage(512, 512).showImageAndWait()
@@ -22,7 +22,7 @@ class SvgJvmTest {
 
     @Test
     fun test2() = runTest {
-        val svg = resourcesVfs["svglogo.svg"].readSVG()
+        val svg = resourcesVfs["res/svglogo.svg"].readSVG()
         val bmp = svg.render()
         //bmp.writeTo("/tmp/demo.png".uniVfs, PNG)
     }

@@ -22,11 +22,11 @@ class FontTest {
     fun test() = runTest {
         BitmapFont(SystemFont("Arial"), 100.0, chars = CharacterSet.LATIN_ALL).register(name = "Arial")
         //BitmapFont(SystemFont("Arial"), 10.0, chars = CharacterSet.LATIN_ALL).register(name = "Arial")
-        //resourcesVfs["tinymce-small.ttf"].readTtfFont().register(name = "Arial")
-        //BitmapFont(resourcesVfs["chunky-wally.ttf"].readTtfFont(), 100.0).register(name = "Arial") // @TODO: This doesn't work probably because bounds are not right
-        resourcesVfs["chunky-wally.ttf"].readTtfFont().register(name = "Arial")
-        //resourcesVfs["Comfortaa-Regular.ttf"].readTtfFont().register(name = "Arial")
-        //resourcesVfs["OptimusPrinceps.ttf"].readTtfFont().register(name = "Arial")
+        //resourcesVfs["res/tinymce-small.ttf"].readTtfFont().register(name = "Arial")
+        //BitmapFont(resourcesVfs["res/chunky-wally.ttf"].readTtfFont(), 100.0).register(name = "Arial") // @TODO: This doesn't work probably because bounds are not right
+        resourcesVfs["res/chunky-wally.ttf"].readTtfFont().register(name = "Arial")
+        //resourcesVfs["res/Comfortaa-Regular.ttf"].readTtfFont().register(name = "Arial")
+        //resourcesVfs["res/OptimusPrinceps.ttf"].readTtfFont().register(name = "Arial")
 
         val svgXmlString = buildSvgXml {
             this.fillStyle = createLinearGradient(0, 0, 0, 48).add(0.0, Colors.BLUE).add(1.0, Colors.GREEN)
@@ -145,10 +145,10 @@ class FontTest {
 
     @Test
     fun testReadFont() = suspendTestNoBrowser {
-        val font1 = resourcesVfs["myfont.ttf"].readTtfFont()
-        val font2 = resourcesVfs["myfont-bug.ttf"].readTtfFont()
-        val font3 = resourcesVfs["myfont-bug2.ttf"].readTtfFont()
-        val font4 = resourcesVfs["myfont-bug3.ttf"].readTtfFont()
+        val font1 = resourcesVfs["res/myfont.ttf"].readTtfFont()
+        val font2 = resourcesVfs["res/myfont-bug.ttf"].readTtfFont()
+        val font3 = resourcesVfs["res/myfont-bug2.ttf"].readTtfFont()
+        val font4 = resourcesVfs["res/myfont-bug3.ttf"].readTtfFont()
         //font1.renderTextToBitmap(20.0, "Hello World!", border = 64, nativeRendering = false).bmp.showImageAndWait()
         //font4.renderTextToBitmap(64.0, "12 Hello World", nativeRendering = true).bmp.showImageAndWait()
     }
@@ -156,7 +156,7 @@ class FontTest {
     @Test
     fun testReadOpenTypeFont() = suspendTestNoBrowser {
         //assertFailsWith<UnsupportedOperationException> {
-            val font1 = resourcesVfs["helvetica.otf"].readTtfFont()
+            val font1 = resourcesVfs["res/helvetica.otf"].readTtfFont()
             logger.debug { "font1=$font1" }
         //}
     }
@@ -205,8 +205,8 @@ class FontTest {
     @Test
     fun testBitmapFonts() = suspendTest({ !Platform.isJsNodeJs }) {
         val atlas = MutableAtlasUnit(512, 512, border = 1)
-        val txtFont = resourcesVfs["reality_hyper_regular_17.fnt"].readBitmapFont(atlas = atlas)
-        val xmlFont = resourcesVfs["example-font.xml"].readBitmapFont(atlas = atlas)
+        val txtFont = resourcesVfs["res/reality_hyper_regular_17.fnt"].readBitmapFont(atlas = atlas)
+        val xmlFont = resourcesVfs["res/example-font.xml"].readBitmapFont(atlas = atlas)
 
         //atlas.allBitmaps.showImagesAndWait()
     }

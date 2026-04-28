@@ -11,7 +11,7 @@ class KorauTest {
 
     @Test
     fun name(): Unit = suspendTest {
-        val sound = resourcesVfs["wav1.wav"].readAudioData(formats)
+        val sound = resourcesVfs["res/wav1.wav"].readAudioData(formats)
         //sleep(0)
         //sound.play()
     }
@@ -19,8 +19,8 @@ class KorauTest {
     //@Test
     //fun decodeMp3() = suspendTest {
     //    println("[a]")
-    //    //val data = Mp3DecodeAudioFormat.decode(resourcesVfs["mp31.mp3"].open())
-    //    val data = MP3Decoder.decode(resourcesVfs["mp31.mp3"].open())
+    //    //val data = Mp3DecodeAudioFormat.decode(resourcesVfs["res/mp31.mp3"].open())
+    //    val data = MP3Decoder.decode(resourcesVfs["res/mp31.mp3"].open())
     //    println("[b]")
     //    localCurrentDirVfs["mp31.mp3.raw"].writeBytes(data!!.samples.toByteArrayLE())
     //    println("[c]")

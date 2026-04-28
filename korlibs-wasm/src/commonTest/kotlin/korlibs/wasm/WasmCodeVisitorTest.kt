@@ -14,7 +14,7 @@ class WasmCodeVisitorTest {
 
         val module = WasmReaderBinary()
             .doTrace(false)
-            .read(resourcesVfs["wasm/webp.wasm"].readBytes().openSync())
+            .read(resourcesVfs["res/wasm/webp.wasm"].readBytes().openSync())
             .toModule()
 
         //val newInterpreter = WasmRunInterpreterNew(module)
@@ -27,7 +27,7 @@ class WasmCodeVisitorTest {
 
         //val module = createJIT("webp.wasm", codeTrace = true, validate = true)
         //val module = createJIT("webp.wasm", codeTrace = false)
-        val webpBytes = resourcesVfs["wasm/webp.webp"].readBytes()
+        val webpBytes = resourcesVfs["res/wasm/webp.webp"].readBytes()
         val ptr = newInterpreter.invoke("malloc", webpBytes.size) as Int
         newInterpreter.memory.setArrayInt8(ptr, webpBytes)
 

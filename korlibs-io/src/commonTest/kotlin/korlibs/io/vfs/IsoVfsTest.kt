@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 class IsoVfsTest {
 	@Test
 	fun testIso() = suspendTestNoBrowser {
-		resourcesVfs["isotest.iso"].openAsIso { isotestIso ->
+		resourcesVfs["res/isotest.iso"].openAsIso { isotestIso ->
 			assertEquals(
 				listOf("/HELLO", "/HELLO/WORLD.TXT"),
 				isotestIso.listRecursive().map { it.fullName }.toList()

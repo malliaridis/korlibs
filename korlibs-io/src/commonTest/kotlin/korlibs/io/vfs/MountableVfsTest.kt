@@ -27,10 +27,10 @@ class MountableVfsTest {
 		}
 
 		val root = MountableVfs(closeMounts = true) {
-			mount("/zip/demo2", resourcesVfs["hello.zip"].openAsZip())
-			mount("/zip", resourcesVfs["hello.zip"].openAsZip())
-			mount("/zip/demo", resourcesVfs["hello.zip"].openAsZip())
-			mount("/iso", resourcesVfs["isotest.iso"].openAsIso())
+			mount("/zip/demo2", resourcesVfs["res/hello.zip"].openAsZip())
+			mount("/zip", resourcesVfs["res/hello.zip"].openAsZip())
+			mount("/zip/demo", resourcesVfs["res/hello.zip"].openAsZip())
+			mount("/iso", resourcesVfs["res/isotest.iso"].openAsIso())
 		}
 		try {
 			assertEquals("HELLO WORLD!", root["/zip/hello/world.txt"].readString())

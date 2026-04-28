@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 class Xml2Test {
 	@Test
 	fun name2() = suspendTestNoBrowser {
-		val xml = resourcesVfs["test.xml"].readXml()
+		val xml = resourcesVfs["res/test.xml"].readXml()
 		assertEquals("test", xml.name)
 		assertEquals("hello", xml.text)
 	}

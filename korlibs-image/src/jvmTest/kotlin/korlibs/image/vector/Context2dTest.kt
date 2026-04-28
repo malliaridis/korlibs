@@ -64,13 +64,13 @@ class Context2dTest {
 		}
 		//showImageAndWait(img)
 		//LocalVfs("c:/temp/c2dactual.png").writeBitmap(img.toBmp32())
-		//LocalVfs("c:/temp/c2dreference.png").writeBitmap(ResourcesVfs["c2dreference.png"].readBitmap().toBMP32())
+		//LocalVfs("c:/temp/c2dreference.png").writeBitmap(resourcesVfs["res/c2dreference.png"].readBitmap().toBMP32())
 		//img.toBmp32()
 
         //img.showImageAndWait()
 		//assertTrue(
 		//	Bitmap32.matches(
-		//		resourcesVfs["c2dreference.png"].readBitmap(PNG).toBMP32().depremultiplied(),
+		//		resourcesVfs["res/c2dreference.png"].readBitmap(PNG).toBMP32().depremultiplied(),
 		//		img.toBMP32().depremultiplied()
 		//	)
 		//)

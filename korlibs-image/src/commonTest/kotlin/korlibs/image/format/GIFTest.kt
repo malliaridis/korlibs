@@ -11,7 +11,7 @@ class GIFTest {
 
     @Test
     fun test() = suspendTestNoBrowser {
-        val data = resourcesVfs["small-animated-gif-images-2.gif"].readImageData(GIFProps)
+        val data = resourcesVfs["res/small-animated-gif-images-2.gif"].readImageData(GIFProps)
         assertEquals(500, data.width)
         assertEquals(500, data.height)
         assertEquals(3, data.frames.size)
@@ -23,7 +23,7 @@ class GIFTest {
 
     @Test
     fun testIssue636() = suspendTestNoBrowser {
-        val data = resourcesVfs["200.gif"].readImageData(GIFProps)
+        val data = resourcesVfs["res/200.gif"].readImageData(GIFProps)
         assertEquals(30.milliseconds, data.defaultAnimation.frames.first().duration)
 
         //for (frame in data.frames) frame.bitmap.showImageAndWait()

@@ -9,7 +9,7 @@ import kotlin.test.*
 class TextRendererTest {
     @Test
     fun test() = runTest {
-        val font = resourcesVfs["font/segment7.fnt"].readBitmapFont()
+        val font = resourcesVfs["res/font/segment7.fnt"].readBitmapFont()
         val actions = Text2TextRendererActions()
         DefaultStringTextRenderer.invoke(actions, "42:10", 92.0, font)
         assertEquals(

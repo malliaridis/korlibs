@@ -11,8 +11,8 @@ class HEICTest {
     @Test
     fun test() = runTest {
         if (Platform.isWatchos) return@runTest
-        val heic = resourcesVfs["heic.heic"].readBitmap().toBMP32().premultiplied()
-        val png = resourcesVfs["heic.heic.png"].readBitmap(PNG.toProps()).toBMP32().premultiplied()
+        val heic = resourcesVfs["res/heic.heic"].readBitmap().toBMP32().premultiplied()
+        val png = resourcesVfs["res/heic.heic.png"].readBitmap(PNG.toProps()).toBMP32().premultiplied()
         //localVfs("/tmp/heic.heic.png").writeBitmap(heic, PNG)
         assertGreaterOrEqual(30.0, Bitmap32.computePsnr(heic, png), message = "PSNR")
     }

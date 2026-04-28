@@ -14,7 +14,7 @@ import kotlin.test.*
 class NinePatchShapeTest {
     @Test
     fun test() = doTest {
-        val shape = resourcesVfs["chat-bubble.svg"].readSVG().toShape()
+        val shape = resourcesVfs["res/chat-bubble.svg"].readSVG().toShape()
         val ninePatch = shape.toNinePatchFromGuides(guideColor = Colors.FUCHSIA)
         assertEquals(Size(128, 128), ninePatch.size)
         assertEquals(NinePatchSlices2D(

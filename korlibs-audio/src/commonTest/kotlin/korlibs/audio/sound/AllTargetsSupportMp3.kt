@@ -10,14 +10,14 @@ import kotlin.test.*
 class AllTargetsSupportMp3 {
     @Test
     fun testDecode() = suspendTest({ doIOTest }) {
-        val data = resourcesVfs["mp31.mp3"].readSound().decode()
+        val data = resourcesVfs["res/mp31.mp3"].readSound().decode()
     }
 
     @Test
     fun testIsMp3() = suspendTest({ doIOTest }) {
         if (Platform.isWasm) return@suspendTest
 
-        assertNotNull(MP3.tryReadInfo(resourcesVfs["8Khz-Mono.mp3"].open()))
-        assertNull(MP3.tryReadInfo(resourcesVfs["8Khz-Mono.opus"].open()))
+        assertNotNull(MP3.tryReadInfo(resourcesVfs["res/8Khz-Mono.mp3"].open()))
+        assertNull(MP3.tryReadInfo(resourcesVfs["res/8Khz-Mono.opus"].open()))
     }
 }

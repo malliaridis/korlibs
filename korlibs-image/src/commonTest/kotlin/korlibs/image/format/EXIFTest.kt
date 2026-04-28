@@ -10,7 +10,7 @@ import kotlin.test.assertEquals
 class EXIFTest {
     @Test
     fun test() = doTest {
-        val exif = EXIF.readExifFromJpeg(resourcesVfs["Portrait_3.jpg"])
+        val exif = EXIF.readExifFromJpeg(resourcesVfs["res/Portrait_3.jpg"])
         assertEquals(ImageOrientation.ROTATE_180, exif.orientation)
     }
 }

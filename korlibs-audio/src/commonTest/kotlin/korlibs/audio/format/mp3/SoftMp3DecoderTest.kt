@@ -18,33 +18,33 @@ class SoftMp3DecoderTest {
 
     @Test
     fun testMiniMp31() = suspendTest({ doIOTest }) {
-        //resourcesVfs["mp31.mp3"].readAudioData(MP3Decoder).toSound()
+        //resourcesVfs["res/mp31.mp3"].readAudioData(MP3Decoder).toSound()
         assertEquals(
             "1,44100,22050,c82a407c8353c9d47c6f499a5195f85809bbbf8a",
-            resourcesVfs["mp31.mp3"].readAudioData(MP3Decoder).toFingerprintString()
+            resourcesVfs["res/mp31.mp3"].readAudioData(MP3Decoder).toFingerprintString()
         )
     }
 
     @Test fun mp3_1() = suspendTest({ doIOTest }) {
         assertEquals(
             "1,44100,28800,ee797bf9ec5a2b5ed0e3064cc5d091157921be6f",
-            resourcesVfs["circle_ok.mp3"].readAudioData(formats).toFingerprintString()
+            resourcesVfs["res/circle_ok.mp3"].readAudioData(formats).toFingerprintString()
         )
     }
     @Test fun mp3_2() = suspendTest({ doIOTest }) {
         assertEquals(
             "1,44100,16128,e4848a4bd5b3117665dcafc14109fdc677c9ee2f",
-            resourcesVfs["line_missed.mp3"].readAudioData(formats).toFingerprintString()
+            resourcesVfs["res/line_missed.mp3"].readAudioData(formats).toFingerprintString()
         )
     }
     @Test fun mp3_3() = suspendTest({ doIOTest }) {
         assertEquals(
             "1,44100,14976,f38dc856841ba47afe815d6a64654f29b63b822e",
-            resourcesVfs["line_ok.mp3"].readAudioData(formats).toFingerprintString(),
+            resourcesVfs["res/line_ok.mp3"].readAudioData(formats).toFingerprintString(),
         )
     }
     @Test fun monkeyDramaMiniMp3() = suspendTest({ doIOTest }) {
-        val (mp3Bytes, readTime) = measureTimedValue { resourcesVfs["monkey_drama.mp3"].readBytes() }
+        val (mp3Bytes, readTime) = measureTimedValue { resourcesVfs["res/monkey_drama.mp3"].readBytes() }
         logger.debug { "Read in $readTime" }
         val (decode, decodeTime) = measureTimedValue { formats.decode(mp3Bytes, AudioDecodingProps(maxSamples = 569088)) }
         logger.debug { "Decoded in $decodeTime" }
@@ -60,7 +60,7 @@ class SoftMp3DecoderTest {
     //@Test fun snowland() = suspendTest(timeout = 3.seconds) {
         assertEquals(
             "2,48000,565920,36945a5c28a37e4f860b951fe397f03ba1bd187d",
-            resourcesVfs["Snowland.mp3"].readAudioData(formats).toFingerprintString(),
+            resourcesVfs["res/Snowland.mp3"].readAudioData(formats).toFingerprintString(),
         )
     }
 

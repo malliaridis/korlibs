@@ -37,7 +37,7 @@ open class WasmTest {
         val module = createModuleRuntime("wasm/mp3.wasm", codeTrace = false, validate = false)
         //module.usedClassMemory=30297
         println("module.usedClassMemory=${module.usedClassMemory}")
-        val mp3Bytes = resourcesVfs["wasm/demo.mp3"].readBytes()
+        val mp3Bytes = resourcesVfs["res/wasm/demo.mp3"].readBytes()
         //val mp3dec_init: (ptr: Int) -> Unit by func()
         //val mp3dec_decode_frame: (dec: Int, mp3: Int, mp3_bytes: Int, pcm: Int, info: Int) -> Int by func()
 
@@ -64,7 +64,7 @@ open class WasmTest {
         //val module = createModuleRuntime("wasm/webp-O0-full.wasm", loadTrace = false, codeTrace = false, validate = false)
         //val module = createJIT("webp.wasm", codeTrace = true, validate = true)
         //val module = createJIT("webp.wasm", codeTrace = false)
-        val webpBytes = resourcesVfs["wasm/webp.webp"].readBytes()
+        val webpBytes = resourcesVfs["res/wasm/webp.webp"].readBytes()
         val ptr = module.invoke("malloc", webpBytes.size) as Int
         module.memory.setArrayInt8(ptr, webpBytes)
 

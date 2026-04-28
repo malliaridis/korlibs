@@ -12,14 +12,14 @@ class ImageFormatsNativeTest {
 
     @Test
     fun png8() = suspendTest {
-        val bitmap = resourcesVfs["kotlin8.png"].readNativeImage()
+        val bitmap = resourcesVfs["res/kotlin8.png"].readNativeImage()
         assertEquals("AwtNativeImage(190, 190)", bitmap.toString())
         //awtShowImage(bitmap); Thread.sleep(10000L)
     }
 
     @Test
     fun png24() = suspendTest {
-        val bitmap = resourcesVfs["kotlin24.png"].readBitmap(formats)
+        val bitmap = resourcesVfs["res/kotlin24.png"].readBitmap(formats)
         assertEquals("AwtNativeImage(190, 190)", bitmap.toString())
         //awtShowImage(bitmap); Thread.sleep(10000L)
     }
@@ -27,16 +27,16 @@ class ImageFormatsNativeTest {
 
     @Test
     fun png32() = suspendTest {
-        val bitmap = resourcesVfs["kotlin32.png"].readBitmap(formats)
+        val bitmap = resourcesVfs["res/kotlin32.png"].readBitmap(formats)
         assertEquals("AwtNativeImage(190, 190)", bitmap.toString())
         //awtShowImage(bitmap); Thread.sleep(10000L)
     }
 
     @Test
     fun svg() = suspendTest {
-        val bi = resourcesVfs["logo.svg"].readBitmapInfo(formats)!!
+        val bi = resourcesVfs["res/logo.svg"].readBitmapInfo(formats)!!
         assertEquals(Size(60, 60), bi.size)
-        val bitmap = resourcesVfs["logo.svg"].readBitmap(formats)
+        val bitmap = resourcesVfs["res/logo.svg"].readBitmap(formats)
         //bitmap.showImageAndWait()
         //val logs = Console.capture {}
         //assertEquals(

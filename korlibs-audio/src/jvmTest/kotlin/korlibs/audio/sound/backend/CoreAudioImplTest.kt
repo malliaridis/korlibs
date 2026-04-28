@@ -10,7 +10,7 @@ class CoreAudioImplTest {
         @JvmStatic
         fun main(args: Array<String>) = runBlocking {
             println("[1]")
-            val sound = resourcesVfs["Snowland.mp3"].readSound().toAudioData()
+            val sound = resourcesVfs["res/Snowland.mp3"].readSound().toAudioData()
             println("[2]")
             JVMCoreAudioNativeSoundProvider!!.playAndWait(sound.toStream())
             println("[3]")

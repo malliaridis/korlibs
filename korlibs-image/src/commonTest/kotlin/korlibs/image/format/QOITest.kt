@@ -15,8 +15,8 @@ class QOITest {
     fun qoiTest() = suspendTestNoBrowser {
         RegisteredImageFormats.register(PNG) // Required for readBitmapOptimized
 
-        val pngBytes = resourcesVfs["dice.png"].readBytes()
-        val qoiBytes = resourcesVfs["dice.qoi"].readBytes()
+        val pngBytes = resourcesVfs["res/dice.png"].readBytes()
+        val qoiBytes = resourcesVfs["res/dice.qoi"].readBytes()
 
         //val (expectedNative, expectedNativeTime) = measureTimeWithResult { nativeImageFormatProvider.decode(pngBytes) }
         val (expected, expectedTime) = measureTimedValue { PNG.decode(pngBytes) }
@@ -41,8 +41,8 @@ class QOITest {
 
         val preallocatedArray = UByteArrayInt(QOI.calculateMaxSize(1000, 1000))
 
-        val pngBytes = resourcesVfs["dice.png"].readBytes()
-        val qoiBytes = resourcesVfs["dice.qoi"].readBytes()
+        val pngBytes = resourcesVfs["res/dice.png"].readBytes()
+        val qoiBytes = resourcesVfs["res/dice.qoi"].readBytes()
 
         val (expectedNative, expectedNativeTime) = measureTimedValue {
             nativeImageFormatProvider.decode(
@@ -79,8 +79,8 @@ class QOITest {
 
         val qoiOutBitmap = Bitmap32(800, 600, premultiplied = false)
 
-        val pngBytes = resourcesVfs["dice.png"].readBytes()
-        val qoiBytes = resourcesVfs["dice.qoi"].readBytes()
+        val pngBytes = resourcesVfs["res/dice.png"].readBytes()
+        val qoiBytes = resourcesVfs["res/dice.qoi"].readBytes()
 
         val (expectedNative, expectedNativeTime) = measureTimedValue {
             nativeImageFormatProvider.decode(
@@ -106,7 +106,7 @@ class QOITest {
 
         val qoiOutBitmap = Bitmap32(666, 600, premultiplied = false)
 
-        val qoiBytes = resourcesVfs["dice.qoi"].readBytes()
+        val qoiBytes = resourcesVfs["res/dice.qoi"].readBytes()
         val (output, outputTime) = measureTimedValue {
             QOI.decode(qoiBytes, ImageDecodingProps.DEFAULT.copy(out = qoiOutBitmap))
         }
@@ -120,7 +120,7 @@ class QOITest {
 
         val qoiOutBitmap = Bitmap32(800, 666, premultiplied = false)
 
-        val qoiBytes = resourcesVfs["dice.qoi"].readBytes()
+        val qoiBytes = resourcesVfs["res/dice.qoi"].readBytes()
         val (output, outputTime) = measureTimedValue {
             QOI.decode(qoiBytes, ImageDecodingProps.DEFAULT.copy(out = qoiOutBitmap))
         }
@@ -134,7 +134,7 @@ class QOITest {
 
         val qoiOutBitmap = Bitmap32(800, 600, premultiplied = true)
 
-        val qoiBytes = resourcesVfs["dice.qoi"].readBytes()
+        val qoiBytes = resourcesVfs["res/dice.qoi"].readBytes()
         val (output, outputTime) = measureTimedValue {
             QOI.decode(qoiBytes, ImageDecodingProps.DEFAULT.copy(out = qoiOutBitmap))
         }
@@ -144,7 +144,7 @@ class QOITest {
 
     @Test
     fun providingSmallPreAllocatedArrayResultsInError() = suspendTestNoBrowser {
-        val original = QOI.decode(resourcesVfs["dice.qoi"])
+        val original = QOI.decode(resourcesVfs["res/dice.qoi"])
         val preallocatedArray = UByteArrayInt(4)
         val props = ImageEncodingProps {
             preAllocatedArrayForQOI = preallocatedArray

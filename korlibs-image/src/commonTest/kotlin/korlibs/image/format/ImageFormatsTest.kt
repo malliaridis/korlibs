@@ -22,13 +22,13 @@ class ImageFormatsTest {
 	@Test
 	fun png8() = suspendTestNoBrowser {
 		//println("ResourcesVfs.absolutePath:" + ResourcesVfs.absolutePath)
-		val bitmap = resourcesVfs["kotlin8.png"].readBitmapNoNative(props)
+		val bitmap = resourcesVfs["res/kotlin8.png"].readBitmapNoNative(props)
 		assertEquals("Bitmap8(190, 190, palette=32)", bitmap.toString())
 	}
 
 	@Test
 	fun png24() = suspendTestNoBrowser {
-		val bitmap = resourcesVfs["kotlin24.png"].readBitmapNoNative(props)
+		val bitmap = resourcesVfs["res/kotlin24.png"].readBitmapNoNative(props)
 		//JailedLocalVfs("c:/temp/")["lol.png"].writeBitmap(bitmap, formats)
 		//root["kotlin8.png"].writeBitmap()
 		assertEquals("Bitmap32(190, 190)", bitmap.toString())
@@ -36,7 +36,7 @@ class ImageFormatsTest {
 
 	@Test
 	fun bmp() = suspendTestNoBrowser {
-		val bitmap = resourcesVfs["kotlin.bmp"].readBitmapNoNative(props)
+		val bitmap = resourcesVfs["res/kotlin.bmp"].readBitmapNoNative(props)
 		//JailedLocalVfs("c:/temp/")["lol.png"].writeBitmap(bitmap, formats)
 		//root["kotlin8.png"].writeBitmap()
 		assertEquals("Bitmap32(190, 190)", bitmap.toString())
@@ -45,8 +45,8 @@ class ImageFormatsTest {
 
     @Test
     fun bmp32() = suspendTestNoBrowser {
-        val bitmap = resourcesVfs["kotlin32.bmp"].readBitmapNoNative(props)
-        val expectedBitmap = resourcesVfs["kotlin32.png"].readBitmapNoNative(props)
+        val bitmap = resourcesVfs["res/kotlin32.bmp"].readBitmapNoNative(props)
+        val expectedBitmap = resourcesVfs["res/kotlin32.png"].readBitmapNoNative(props)
         //JailedLocalVfs("c:/temp/")["lol.png"].writeBitmap(bitmap, formats)
         //root["kotlin8.png"].writeBitmap()
         assertEquals("Bitmap32(190, 190)", bitmap.toString())
@@ -55,7 +55,7 @@ class ImageFormatsTest {
 
     @Test
 	fun png32Encoder() = suspendTestNoBrowser {
-		val bitmap = resourcesVfs["kotlin24.png"].readBitmapNoNative(props)
+		val bitmap = resourcesVfs["res/kotlin24.png"].readBitmapNoNative(props)
 		val data = PNG.encode(bitmap)
 		val bitmap2 = PNG.decode(data)
 		assertEquals("Bitmap32(190, 190)", bitmap.toString())
@@ -68,7 +68,7 @@ class ImageFormatsTest {
 
 	@Test
 	fun png32EncoderPremultiplied() = suspendTestNoBrowser {
-		val bitmapOriginal = resourcesVfs["kotlin32.png"].readBitmapNoNative(props.copy(premultiplied = false)).toBMP32()
+		val bitmapOriginal = resourcesVfs["res/kotlin32.png"].readBitmapNoNative(props.copy(premultiplied = false)).toBMP32()
         //assertEquals(false, bitmapOriginal.premultiplied)
 		val bitmap1 = bitmapOriginal.premultiplied()
         assertEquals(true, bitmap1.premultiplied)
@@ -84,14 +84,14 @@ class ImageFormatsTest {
 
 	@Test
 	fun png32() = suspendTestNoBrowser {
-		val bitmap = resourcesVfs["kotlin32.png"].readBitmapNoNative(props)
+		val bitmap = resourcesVfs["res/kotlin32.png"].readBitmapNoNative(props)
 		assertEquals("Bitmap32(190, 190)", bitmap.toString())
 	}
 
 	@Test
 	fun tga() = suspendTestNoBrowser {
-		val bitmap = resourcesVfs["kotlin.tga"].readBitmapNoNative(props)
-        val expectedBitmap = resourcesVfs["kotlin24.png"].readBitmapNoNative(props)
+		val bitmap = resourcesVfs["res/kotlin.tga"].readBitmapNoNative(props)
+        val expectedBitmap = resourcesVfs["res/kotlin24.png"].readBitmapNoNative(props)
 		assertEquals("Bitmap32(190, 190)", bitmap.toString())
         //bitmap.showImageAndWait()
         assertEquals(true, Bitmap32.matches(bitmap, expectedBitmap))
@@ -99,8 +99,8 @@ class ImageFormatsTest {
 
     @Test
     fun tga32() = suspendTestNoBrowser {
-        val bitmap = resourcesVfs["kotlin32.tga"].readBitmapNoNative(props)
-        val expectedBitmap = resourcesVfs["kotlin32.png"].readBitmapNoNative(props)
+        val bitmap = resourcesVfs["res/kotlin32.tga"].readBitmapNoNative(props)
+        val expectedBitmap = resourcesVfs["res/kotlin32.png"].readBitmapNoNative(props)
         assertEquals("Bitmap32(190, 190)", bitmap.toString())
         //bitmap.showImageAndWait()
         assertEquals(true, Bitmap32.matches(bitmap, expectedBitmap))
@@ -108,7 +108,7 @@ class ImageFormatsTest {
 
     @Test
 	fun ico() = suspendTestNoBrowser {
-		val bitmaps = resourcesVfs["icon.ico"].readBitmapListNoNative(props)
+		val bitmaps = resourcesVfs["res/icon.ico"].readBitmapListNoNative(props)
 		assertEquals(
 			"[Bitmap32(256, 256), Bitmap32(128, 128), Bitmap32(96, 96), Bitmap32(72, 72), Bitmap32(64, 64), Bitmap32(48, 48), Bitmap32(32, 32), Bitmap32(24, 24), Bitmap32(16, 16)]",
 			bitmaps.toString()

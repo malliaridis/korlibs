@@ -11,7 +11,7 @@ import kotlin.test.*
 class TTfTest {
     @Test
     fun test() = doTest {
-        val font = resourcesVfs["twemoji-glyf_colr_1.ttf"].readTtfFont()
+        val font = resourcesVfs["res/twemoji-glyf_colr_1.ttf"].readTtfFont()
         val wstr = WString("😀👩🏽‍🦳👨🏻‍🦳")
         val glyph = font[wstr.codePointAt(0)]!!
         //println("ADVANCE:" + glyph.advanceWidth)
@@ -27,7 +27,7 @@ class TTfTest {
 
     @Test
     fun testLigatureAdvancementBug() = doTest {
-        val font = resourcesVfs["PlayfairDisplay-BoldItalic.ttf"].readTtfFont()
+        val font = resourcesVfs["res/PlayfairDisplay-BoldItalic.ttf"].readTtfFont()
         fun res(str: String, reader: Boolean = true): Pair<Double, Int> {
             val rreader = WStringReader(str)
             val res = font.getGlyphMetrics(
@@ -55,7 +55,7 @@ class TTfTest {
     @Test
     fun ligaturesEnabledWorks() = doTest {
         val font =
-            resourcesVfs["font_atkinson/AtkinsonHyperlegible-Bold.ttf"].readTtfFont()
+            resourcesVfs["res/font_atkinson/AtkinsonHyperlegible-Bold.ttf"].readTtfFont()
 
         val reader = WStringReader("1/4")
 
@@ -69,7 +69,7 @@ class TTfTest {
     @Test
     fun ligaturesDisabledWorks() = doTest {
         val font =
-            resourcesVfs["font_atkinson/AtkinsonHyperlegible-Bold.ttf"].readTtfFont(enableLigatures = false)
+            resourcesVfs["res/font_atkinson/AtkinsonHyperlegible-Bold.ttf"].readTtfFont(enableLigatures = false)
 
         val reader = WStringReader("1/4")
 

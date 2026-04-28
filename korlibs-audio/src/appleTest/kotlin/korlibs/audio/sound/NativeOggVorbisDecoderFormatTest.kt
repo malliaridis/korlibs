@@ -5,7 +5,7 @@ class NativeOggVorbisDecoderFormatTest {
     @Test
     fun test() = suspendTest {
         val decoder = NativeOggVorbisDecoderFormat
-        val file = resourcesVfs["ogg1.ogg"]
+        val file = resourcesVfs["res/ogg1.ogg"]
         val stream = decoder.decodeStream(file.open()) ?: error("Can't open decoder")
         val audioData = stream.toData()
 

@@ -12,22 +12,22 @@ class ResourcesVfsTest {
     fun test() = suspendTest {
         assertEquals(
             "HELLO",
-            resourcesVfs["resource.txt"].readAll().decodeToString()
+            resourcesVfs["res/resource.txt"].readAll().decodeToString()
         )
     }
 
     @Test
     fun name() = suspendTest({ Platform.isJvm }) {
         //println("[A]")
-        val listing = resourcesVfs["tresfolder"].list()
+        val listing = resourcesVfs["res/tresfolder"].list()
         //println("[B]")
         //println("listing=$listing")
 
-        //for (v in resourcesVfs["tresfolder"].list().filter { it.extensionLC == "txt" }.toList()) println(v)
+        //for (v in resourcesVfs["res/tresfolder"].list().filter { it.extensionLC == "txt" }.toList()) println(v)
 
         assertEquals(
             "[a.txt, b.txt]",
-            resourcesVfs["tresfolder"].list().filter { it.extensionLC == "txt" }.toList().map { it.baseName }.sorted()
+            resourcesVfs["res/tresfolder"].list().filter { it.extensionLC == "txt" }.toList().map { it.baseName }.sorted()
                 .toString()
         )
     }
@@ -39,12 +39,12 @@ class ResourcesVfsTest {
         var log = String()
         println("watcher start")
 
-        val closeable = resourcesVfs["tresfolder"].watch {
+        val closeable = resourcesVfs["res/tresfolder"].watch {
             log = it.toString()
             println(log)
         }
 
-        resourcesVfs["tresfolder/a.txt"].touch(DateTime.now())
+        resourcesVfs["res/tresfolder/a.txt"].touch(DateTime.now())
         kotlinx.coroutines.delay(100)
         closeable.close()
 

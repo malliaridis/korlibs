@@ -23,7 +23,7 @@ class SoundAudioStreamTest {
 
         val soundProvider = LogNativeSoundProvider()
 
-        val sound = soundProvider.createSound(resourcesVfs["click.mp3"], streaming = true)
+        val sound = soundProvider.createSound(resourcesVfs["res/click.mp3"], streaming = true)
         val data = sound.toAudioData()
         sound.playAndWait(2.playbackTimes)
         //assertEquals(2, soundProvider.log.size)

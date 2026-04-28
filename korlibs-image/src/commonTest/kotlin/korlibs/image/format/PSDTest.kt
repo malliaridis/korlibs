@@ -11,8 +11,8 @@ class PSDTest {
 
     @Test
     fun psdTest() = suspendTestNoBrowser {
-        val output = resourcesVfs["small.psd"].readBitmapNoNative(formats)
-        val expected = resourcesVfs["small.psd.png"].readBitmapNoNative(formats)
+        val output = resourcesVfs["res/small.psd"].readBitmapNoNative(formats)
+        val expected = resourcesVfs["res/small.psd.png"].readBitmapNoNative(formats)
         //showImageAndWait(output)
         assertEquals(0, output.matchContentsDistinctCount(expected))
     }

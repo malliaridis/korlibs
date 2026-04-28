@@ -27,7 +27,7 @@ import kotlin.test.assertNotEquals
 class ZipVfsTest {
 	@Test
 	fun testZipUncompressed1() = suspendTestNoBrowser {
-		resourcesVfs["hello.zip"].openAsZip { helloZip ->
+		resourcesVfs["res/hello.zip"].openAsZip { helloZip ->
 			assertEquals(
 				"[VfsStat(file=/hello, exists=true, isDirectory=true, size=0, device=-1, inode=0, mode=511, owner=nobody, group=nobody, createTime=DateTime(1482710410000), modifiedTime=DateTime(0), lastAccessTime=DateTime(0), extraInfo=null, id=null)]",
 				helloZip.list().toList().map { it.stat().toString(showFile = false) }.toString()
@@ -37,7 +37,7 @@ class ZipVfsTest {
 
 	@Test
 	fun testZipUncompressed2() = suspendTestNoBrowser {
-		resourcesVfs["hello.zip"].openAsZip { helloZip ->
+		resourcesVfs["res/hello.zip"].openAsZip { helloZip ->
 			assertEquals(
 				"[VfsStat(file=/hello/world.txt, exists=true, isDirectory=false, size=12, device=-1, inode=1, mode=511, owner=nobody, group=nobody, createTime=DateTime(1482710410000), modifiedTime=DateTime(0), lastAccessTime=DateTime(0), extraInfo=null, id=null)]",
 				helloZip["hello"].list().toList().map { it.stat().toString(showFile = false) }.toString()
@@ -47,7 +47,7 @@ class ZipVfsTest {
 
 	@Test
 	fun testZipUncompressed3() = suspendTestNoBrowser {
-		resourcesVfs["hello.zip"].openAsZip { helloZip ->
+		resourcesVfs["res/hello.zip"].openAsZip { helloZip ->
 			assertEquals(
 				"VfsStat(file=/hello/world.txt, exists=true, isDirectory=false, size=12, device=-1, inode=1, mode=511, owner=nobody, group=nobody, createTime=DateTime(1482710410000), modifiedTime=DateTime(0), lastAccessTime=DateTime(0), extraInfo=null, id=null)",
 				helloZip["hello/world.txt"].stat().toString(showFile = false)
@@ -57,7 +57,7 @@ class ZipVfsTest {
 
 	@Test
 	fun testZipUncompressed4() = suspendTestNoBrowser {
-		resourcesVfs["hello.zip"].openAsZip { helloZip ->
+		resourcesVfs["res/hello.zip"].openAsZip { helloZip ->
 			assertEquals(
 				"HELLO WORLD!",
 				helloZip["hello/world.txt"].readString()
@@ -67,7 +67,7 @@ class ZipVfsTest {
 
 	@Test
 	fun testZipUncompressed5() = suspendTestNoBrowser {
-		resourcesVfs["hello.zip"].openAsZip { helloZip ->
+		resourcesVfs["res/hello.zip"].openAsZip { helloZip ->
 			val stat = helloZip["hello/world.txt"].stat()
 			val createTime = stat.createTime
 
@@ -80,7 +80,7 @@ class ZipVfsTest {
 
 	@Test
 	fun testZipCompressed() = suspendTestNoBrowser {
-		resourcesVfs["compressedHello.zip"].openAsZip { helloZip ->
+		resourcesVfs["res/compressedHello.zip"].openAsZip { helloZip ->
 			val contents =
 				"HELLO HELLO HELLO HELLO HELLO HELLO HELLO HELLO HELLO HELLO HELLO HELLO HELLO HELLO HELLO HELLO WORLD!"
 
@@ -141,7 +141,7 @@ class ZipVfsTest {
     fun testCopy() = suspendTestNoBrowser {
         val data = MemoryVfs()
 
-        resourcesVfs["compressedHello.zip"].openAsZip { helloZip ->
+        resourcesVfs["res/compressedHello.zip"].openAsZip { helloZip ->
             helloZip["hello/compressedWorld.txt"].copyTo(data["out.txt"])
         }
         assertEquals(
@@ -152,7 +152,7 @@ class ZipVfsTest {
 
     @Test
     fun testSeekNotAvailable() = suspendTestNoBrowser {
-        resourcesVfs["compressedHello.zip"].openAsZip { helloZip ->
+        resourcesVfs["res/compressedHello.zip"].openAsZip { helloZip ->
             val stream = helloZip["hello/compressedWorld.txt"].open()
             stream.setPosition(10L)
             assertFailsWith(SeekNotSupportedException::class) { stream.read() }
@@ -178,7 +178,7 @@ class ZipVfsTest {
 
 	@Test
 	fun testReadChunk() = suspendTestNoBrowser {
-		resourcesVfs["simple1.fla.zip"].openAsZip { zip ->
+		resourcesVfs["res/simple1.fla.zip"].openAsZip { zip ->
 			val xml = zip["DOMDocument.xml"].readXml()
 			assertEquals(1, xml.descendants.filter { it.nameLC == "frames" }.count())
 		}
@@ -187,7 +187,7 @@ class ZipVfsTest {
 	@Test
 	fun testSizeNotInHeader() = suspendTestNoBrowser {
 		val sizes = mutableMapOf<String, Long>()
-		resourcesVfs["android200-sqlite.cblite2.zip"].openAsZip { cblZip ->
+		resourcesVfs["res/android200-sqlite.cblite2.zip"].openAsZip { cblZip ->
 			cblZip.listRecursive().collect {
 				if (!it.isDirectory()) {
 					assertNotEquals(0, it.size())

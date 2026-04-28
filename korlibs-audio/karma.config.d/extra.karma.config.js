@@ -7,7 +7,7 @@ config.set({
         { pattern: 'kotlin/**/*', included: false, served: true, watched: false }
     ],
     proxies: {
-        '/': '/base/kotlin/'
+        '/res/': '/base/kotlin/'
     },
     client: {
         mocha: {

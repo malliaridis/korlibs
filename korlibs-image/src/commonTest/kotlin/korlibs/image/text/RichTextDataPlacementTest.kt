@@ -18,9 +18,9 @@ class RichTextDataPlacementTest {
         //result.bmp.showImageAndWait()
 
         val fonts = listOf(
-            resourcesVfs["fnt/SaniTrixieSans.ttf"].readTtfFont().toLazyBitmapFont(42.0, distanceField = null),
-            resourcesVfs["msdf/SaniTrixieSans.json"].readBitmapFont(),
-            resourcesVfs["fnt/SaniTrixieSans.fnt"].readBitmapFont()
+            resourcesVfs["res/fnt/SaniTrixieSans.ttf"].readTtfFont().toLazyBitmapFont(42.0, distanceField = null),
+            resourcesVfs["res/msdf/SaniTrixieSans.json"].readBitmapFont(),
+            resourcesVfs["res/fnt/SaniTrixieSans.fnt"].readBitmapFont()
         )
 
         val texts = fonts.map { RichTextData("HELLO WORLD", font = it, textSize = 32.0) }
@@ -38,7 +38,7 @@ class RichTextDataPlacementTest {
 
     @Test
     fun testNegativeFontSize() = doTest {
-        val font = resourcesVfs["font2/m5x7_16_outline_negative_size.fnt"].readBitmapFont()
+        val font = resourcesVfs["res/font2/m5x7_16_outline_negative_size.fnt"].readBitmapFont()
         val placements = RichTextData("Text", font = font).place(Rectangle(0, 0, 1000, 1000))
         assertEquals(16.0, font.fontSize)
         assertEquals(1.0, font.getTextScale(16.0))

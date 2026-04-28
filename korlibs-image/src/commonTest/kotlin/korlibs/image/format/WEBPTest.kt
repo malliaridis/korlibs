@@ -16,7 +16,7 @@ class WEBPTest {
             println("Skipping WEBPTest for now on iOS")
             return@runTest
         }
-        val bmp = resourcesVfs["Exif5-2x.webp"].readBitmap(ImageDecodingProps(format = WEBP(), preferKotlinDecoder = true))
+        val bmp = resourcesVfs["res/Exif5-2x.webp"].readBitmap(ImageDecodingProps(format = WEBP(), preferKotlinDecoder = true))
         assertEquals("256x256", "${bmp.size}")
     }
 
@@ -29,7 +29,7 @@ class WEBPTest {
             println("Skipping WEBPTest for now on iOS")
             return@runTest
         }
-        val bmp = WEBP().decode(resourcesVfs["Exif5-2x.webp"])
+        val bmp = WEBP().decode(resourcesVfs["res/Exif5-2x.webp"])
         assertEquals("256x256", "${bmp.size}")
     }
 }

@@ -14,7 +14,7 @@ class Bitmap32RgbaTest {
         //if (OS.isMac) return@suspendTestNoBrowser // kotlin.AssertionError: Expected <#ff0000ff>, actual <#fb0007ff>.
         //if (OS.isTvos) return@suspendTestNoBrowser
 
-        val bmp = resourcesVfs["rgba.png"].readBitmap(ImageDecodingProps.DEFAULT_PREMULT.copy(format = PNG))
+        val bmp = resourcesVfs["res/rgba.png"].readBitmap(ImageDecodingProps.DEFAULT_PREMULT.copy(format = PNG))
         val i = bmp.toBMP32()
         assertEquals(Colors.RED, i[0, 0])
         assertEquals(Colors.GREEN, i[1, 0])
@@ -24,7 +24,7 @@ class Bitmap32RgbaTest {
 
     @Test
     fun testNormal() = suspendTestNoBrowser {
-        val bmp = resourcesVfs["rgba.png"].readBitmapNoNative(ImageDecodingProps.DEFAULT.copy(format = PNG))
+        val bmp = resourcesVfs["res/rgba.png"].readBitmapNoNative(ImageDecodingProps.DEFAULT.copy(format = PNG))
         val i = bmp.toBMP32()
         assertEquals(Colors.RED, i[0, 0])
         assertEquals(Colors.GREEN, i[1, 0])

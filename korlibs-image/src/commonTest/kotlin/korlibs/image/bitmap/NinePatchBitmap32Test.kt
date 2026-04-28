@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 class NinePatchBitmap32Test {
     @Test
     fun testAtlasFromBmpSlice() = suspendTestNoBrowser {
-        val bmp = resourcesVfs["bubble-chat.9.png"].readBitmap(PNG)
+        val bmp = resourcesVfs["res/bubble-chat.9.png"].readBitmap(PNG)
         val atlas = AtlasPacker.pack(listOf(bmp.slice(name = "bmp1"), bmp.slice(name = "bmp2")))
         val bmp1 = atlas["bmp1"]
         val bmp2 = atlas["bmp2"]
@@ -33,7 +33,7 @@ class NinePatchBitmap32Test {
 
     @Test
     fun name() = suspendTestNoBrowser {
-        val ninePatch = resourcesVfs["bubble-chat.9.png"].readNinePatch(PNG)
+        val ninePatch = resourcesVfs["res/bubble-chat.9.png"].readNinePatch(PNG)
 
         assertEquals(
             listOf(false to 0..89, true to 90..156, false to 157..199),

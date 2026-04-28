@@ -11,7 +11,7 @@ class NativeSoundProviderTest {
             val values = listOf(null, 1.0, 0.1).map { volume ->
                 val provider = LogNativeSoundProvider()
                 val sound = provider
-                    .createSound(resourcesVfs["wav8bit.wav"], streaming = streaming)
+                    .createSound(resourcesVfs["res/wav8bit.wav"], streaming = streaming)
                     .also { if (volume != null) it.volume = volume }
                 sound.playAndWait()
                 val data = AudioSamplesDeque(provider.log.first().samples)
