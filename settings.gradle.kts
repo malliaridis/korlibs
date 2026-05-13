@@ -17,6 +17,7 @@ include(
     ":korlibs-annotations",
     ":korlibs-audio",
     ":korlibs-audio-core",
+    ":korlibs-benchmark",
     ":korlibs-bignumber",
     ":korlibs-checksum",
     ":korlibs-compression",

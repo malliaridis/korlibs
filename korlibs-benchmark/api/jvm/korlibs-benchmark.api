@@ -1,0 +1,6 @@
+public class korlibs/time/TimeBenchmark {
+	public fun <init> ()V
+	public fun korlibsNow-Wg0KzQs ()D
+	public fun kotlinxNow ()Lkotlin/time/Instant;
+}
+
