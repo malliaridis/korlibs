@@ -28,7 +28,8 @@ kotlin {
         withHostTest {}
         withDeviceTest {}
     }
-    js {
+    // Target for datastructure benchmark tests
+    js(IR) {
         nodejs()
         // Browser is not supported for kotlinx-benchmark
     }
@@ -63,6 +64,8 @@ kotlin {
             // korlibs-serialization benchmarks
             implementation(projects.korlibsSerialization)
             implementation(libs.kotlinx.serialization.json)
+
+            implementation(projects.korlibsDatastructure)
         }
     }
 }
