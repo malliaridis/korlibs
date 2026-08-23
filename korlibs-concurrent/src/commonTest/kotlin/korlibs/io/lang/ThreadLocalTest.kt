@@ -1,9 +1,12 @@
 package korlibs.io.lang
 
-import korlibs.concurrent.lock.*
-import korlibs.concurrent.thread.*
-import korlibs.time.*
-import kotlin.test.*
+import korlibs.concurrent.lock.Lock
+import korlibs.concurrent.thread.NativeThread
+import korlibs.concurrent.thread.nativeThread
+import korlibs.concurrent.thread.sleep
+import korlibs.time.seconds
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class ThreadLocalTest {
     @Test
@@ -17,11 +20,9 @@ class ThreadLocalTest {
         log += "main:${tl.value}"
         lock {
             nativeThread {
-                //NativeThread.sleep(1.seconds)
                 log += "thread:${tl.value}"; lock { lock { lock { } }; lock.notify() }
             }
             NativeThread.sleep(0.3.seconds)
-            //NativeThread.sleep(1.seconds)
             lock.wait(10.seconds)
         }
         log += "main:${tl.value}"

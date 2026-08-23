@@ -1,9 +1,12 @@
 package korlibs.io.async
 
-import kotlinx.coroutines.*
-import java.lang.reflect.*
-import kotlin.coroutines.*
-import kotlin.coroutines.intrinsics.*
+import java.lang.reflect.Method
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
+import kotlin.coroutines.intrinsics.COROUTINE_SUSPENDED
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Job
 
 suspend fun Method.invokeSuspend(obj: Any?, args: List<Any?>): Any? {
     val method = this@invokeSuspend
@@ -14,7 +17,7 @@ suspend fun Method.invokeSuspend(obj: Any?, args: List<Any?>): Any? {
     var deferred: CompletableDeferred<Any?>? = null
 
     if (lastParam != null && Continuation::class.java.isAssignableFrom(lastParam)) {
-        deferred = CompletableDeferred<Any?>(Job())
+        deferred = CompletableDeferred(Job())
         margs += deferred.toContinuation(cc)
     }
     val result = method.invoke(obj, *margs.toTypedArray())

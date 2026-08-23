@@ -1,29 +1,16 @@
 package korlibs.io.async
 
-import kotlinx.coroutines.*
-import kotlin.coroutines.*
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
 
-//class AsyncQueue(val context: CoroutineContext) {
 class AsyncQueue {
-    //constructor() : AsyncQueue(CoroutineContext())
-
     val thread = AsyncThread()
-    //val thread = AsyncThread2()
-
-    //companion object {
-    //	suspend operator fun invoke() = AsyncQueue(getCoroutineContext())
-    //}
 
     suspend operator fun invoke(func: suspend () -> Unit): AsyncQueue = invoke(coroutineContext, func)
 
     operator fun invoke(context: CoroutineContext, func: suspend () -> Unit): AsyncQueue {
         thread.sync(context) {
-            //try {
-                func()
-            //} catch (e: Throwable) {
-            //    Console.error("AsyncQueue.invoke.catch")
-            //    e.printStackTrace()
-            //}
+            func()
         }
         return this
     }

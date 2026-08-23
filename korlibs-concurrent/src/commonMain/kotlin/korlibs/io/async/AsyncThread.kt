@@ -1,9 +1,13 @@
 package korlibs.io.async
 
-import kotlinx.coroutines.*
-import kotlin.coroutines.*
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.coroutineContext
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 
-class AsyncThread() : AsyncInvokable {
+class AsyncThread : AsyncInvokable {
     private var lastPromise: Deferred<*>? = null
 
     suspend fun await() {
@@ -44,70 +48,3 @@ class AsyncThread() : AsyncInvokable {
         return promise
     }
 }
-
-///**
-// * Creates a queue of processes that will be executed one after another by effectively preventing from executing
-// * them at the same time.
-// * This class is thread-safe.
-// */
-//class AsyncThread2 : AsyncInvokable {
-//	private val lock = NonRecursiveLock()
-//	private var lastPromise: Deferred<*> = CompletableDeferred(Unit)
-//
-//	suspend fun await() {
-//		while (true) {
-//			val cpromise = lock { lastPromise }
-//			cpromise.await()
-//			if (lock { cpromise == lastPromise }) break
-//		}
-//	}
-//
-//	fun cancel() = apply {
-//		lock { lastPromise }.cancel()
-//		lock { lastPromise = CompletableDeferred(Unit) }
-//	}
-//
-//	override suspend operator fun <T> invoke(func: suspend () -> T): T {
-//		val task = invoke(coroutineContext, func)
-//        return task.await()
-//	}
-//
-//	private operator fun <T> invoke(context: CoroutineContext, func: suspend () -> T): Deferred<T> = lock {
-//		val oldPromise = lastPromise
-//		CoroutineScope(context).async {
-//			oldPromise.await()
-//			func()
-//		}.also { lastPromise = it }
-//	}
-//}
-
-///**
-// * Prevents a named invoke to happen at the same time (by effectively enqueuing by name).
-// * This class is thread-safe.
-// */
-//class NamedAsyncThreads(val threadFactory: () -> AsyncInvokable = { AsyncThread2() }) {
-//	class AsyncJob(val thread: AsyncInvokable) {
-//		var count = 0
-//	}
-//	private val lock = NonRecursiveLock()
-//	private val jobs = LinkedHashMap<String, AsyncJob>()
-//
-//	internal fun threadsCount() = jobs.size
-//
-//	suspend operator fun <T> invoke(name: String, func: suspend () -> T): T {
-//		val job = lock {
-//			jobs.getOrPut(name) { AsyncJob(threadFactory()) }.also { it.count++ }
-//		}
-//		try {
-//			return job.thread.invoke(func)
-//		} finally {
-//			// Synchronization to prevent another thread from being added in the mean time, or a process queued.
-//			lock {
-//				job.count--
-//				if (job.count == 0) {
-//					jobs.remove(name)
-//				}
-//			}
-//		}
-//	}
-//}

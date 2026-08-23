@@ -1,12 +1,20 @@
 package korlibs.concurrent.thread
 
-import korlibs.io.async.*
-import korlibs.time.*
-import kotlinx.atomicfu.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.test.*
-import kotlin.test.*
-import kotlin.time.*
+import korlibs.io.async.CIO
+import korlibs.io.async.runBlockingNoJs
+import korlibs.time.milliseconds
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
+import kotlin.time.measureTime
+import kotlinx.atomicfu.atomic
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.test.runTest
+import kotlinx.coroutines.withContext
 
 class NativeThreadTest {
     @Test
@@ -38,11 +46,7 @@ class NativeThreadTest {
         if (!NativeThread.isSupported) return@runTest
 
         val test = FixedPoolNativeThreadDispatcher(2, "TEST", priority = NativeThreadPriority.HIGHER, preciseTimings = true)
-        //val test = NativeThreadDispatcher("TEST", priority = NativeThreadPriority.HIGHER, preciseTimings = true)
-        //withContext(test) {
         repeat(1) {
-        //repeat(1000) {
-        //repeat(10000) {
             val time = measureTime {
                 val done2 = CompletableDeferred<Unit>()
                 val done1 = CompletableDeferred<Unit>()
@@ -54,25 +58,20 @@ class NativeThreadTest {
                         delay(1.milliseconds)
                         a.addAndGet(2)
                     }
-                    //println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! time1=$time")
                     done2.complete(Unit)
                 }
                 CoroutineScope(test).launch {
                     b.addAndGet(1)
-                    val time = measureTime {
+                    measureTime {
                         delay(1.milliseconds)
                         b.addAndGet(2)
                         done1.complete(Unit)
                     }
-                    //println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! time2=$time")
                 }
-                //println("Sleep: ${NativeThread.current}")
-                //NativeThread.sleep(10.seconds)
-                val awaitTime = measureTime {
+                measureTime {
                     done1.await()
                     done2.await()
                 }
-                //println("############### awaitTime=$awaitTime")
                 assertEquals(3, a.value)
                 assertEquals(3, b.value)
             }
@@ -81,38 +80,4 @@ class NativeThreadTest {
 
         test.close()
     }
-
-    /*
-    class FastDeferred<T> {
-        private val completeLock = Lock()
-        private var completed = false
-        private var value: T? = null
-        private val notifiers = arrayListOf<() -> Unit>()
-
-        fun complete(value: T) {
-            if (completed) return
-
-            val notifiers = completeLock {
-                completed = true
-                this.value = value
-                this.notifiers.toList().also { this.notifiers.clear() }
-            }
-            notifiers.forEach { it() }
-        }
-
-        suspend fun await() = suspendCancellableCoroutine<T> { c ->
-            val completed = completeLock {
-                if (!completed) {
-                    notifiers += {
-                        c.resume(value as T)
-                    }
-                }
-                completed
-            }
-            if (completed) {
-                c.resume(value as T)
-            }
-        }
-    }
-    */
 }

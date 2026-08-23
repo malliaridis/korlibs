@@ -2,24 +2,28 @@
 
 package korlibs.concurrent.lock
 
-import korlibs.concurrent.thread.*
-import korlibs.time.*
-import kotlinx.atomicfu.*
-import kotlinx.atomicfu.locks.*
-import kotlin.time.*
+import korlibs.concurrent.thread.NativeThread
+import korlibs.concurrent.thread.sleepWhile
+import korlibs.time.FastDuration
+import korlibs.time.compareTo
+import korlibs.time.fast
+import kotlin.time.Duration
+import kotlin.time.TimeSource
+import kotlinx.atomicfu.atomic
+import kotlinx.atomicfu.locks.ReentrantLock
+import kotlinx.atomicfu.locks.SynchronizedObject
+import kotlinx.atomicfu.locks.reentrantLock
+import kotlinx.atomicfu.locks.synchronized
 
 interface BaseLock {
     companion object {
         val isSupported get() = NativeThread.isSupported
     }
-
-    //fun lock()
-    //fun unlock()
 }
 
 interface BaseLockWithNotifyAndWait : BaseLock {
-    abstract fun notify(unit: Unit = Unit)
-    abstract fun wait(time: FastDuration): Unit
+    fun notify(unit: Unit = Unit)
+    fun wait(time: FastDuration): Unit
     fun wait(time: Duration): Unit = wait(time.fast)
 }
 
@@ -41,13 +45,9 @@ expect class Lock() : BaseLockWithNotifyAndWait {
 }
 
 inline fun <T> Lock.notify(block: () -> T): T {
-    //println("NOTIFYING[0] ...")
     return this {
-        //println("NOTIFYING[1] ...")
         block().also {
-            //println("NOTIFYING[2] ...")
             notify()
-            //println("NOTIFYING[3] ...")
         }
     }
 }
@@ -73,19 +73,15 @@ abstract class LockImpl() : BaseLockWithNotifyAndWait {
     }
 
     @PublishedApi internal fun lock() {
-        //println("LOCK0: ${NativeThread.currentThreadId} - ${locked.value}")
         reentrantLock.lock()
         locked.incrementAndGet()
         current.value = NativeThread.current.id
-        //println("LOCK1: ${NativeThread.currentThreadId} - ${locked.value}")
     }
 
     @PublishedApi internal fun unlock() {
-        //println("UNLOCK0: ${NativeThread.currentThreadId} - ${locked.value}")
         check(locked.value > 0) { "Must unlock inside a synchronization block" }
         reentrantLock.unlock()
         locked.decrementAndGet()
-        //println("UNLOCK1: ${NativeThread.currentThreadId} - ${locked.value}")
     }
 
     override fun notify(unit: Unit) {
@@ -97,7 +93,6 @@ abstract class LockImpl() : BaseLockWithNotifyAndWait {
 
     override fun wait(time: FastDuration): Unit {
         if (!Lock.isSupported) throw UnsupportedOperationException()
-        //println("WAIT!")
         val lockCount = locked.value
         check(lockCount > 0) { "Must wait inside a synchronization block" }
         val start = TimeSource.Monotonic.markNow()
@@ -119,50 +114,12 @@ abstract class LockImpl() : BaseLockWithNotifyAndWait {
  * Does busy-waiting instead of sleeping the thread.
  */
 class NonRecursiveLock : BaseLock {
-    //private var locked = atomic(0)
     @PublishedApi internal val obj = SynchronizedObject()
 
     inline operator fun <T> invoke(callback: () -> T): T {
         return synchronized(obj) { callback() }
-        //lock()
-        //try {
-        //    return callback()
-        //} finally {
-        //    unlock()
-        //}
     }
-
-    //@PublishedApi internal fun lock() {
-    //    // Should we try to sleep this thread and awake it later? If the lock is short, might not be needed
-    //    if (NativeThread.isSupported) NativeThread.spinWhile { !locked.compareAndSet(0, 1) }
-    //}
-    //@PublishedApi internal fun unlock() {
-    //    // Should we try to sleep this thread and awake it later? If the lock is short, might not be needed
-    //    if (NativeThread.isSupported) NativeThread.spinWhile { !locked.compareAndSet(1, 0) }
-    //}
 }
-
-//fun Lock.waitPrecise(time: Duration): Boolean = waitPrecise(time.fast)
-
-//fun Lock.waitPrecise(time: FastDuration): Boolean {
-//    val startTime = FastDuration.now()
-//    val doWait = time - 10.fastMilliseconds
-//    val signaled = if (doWait > 0.fastSeconds) wait(doWait) else false
-//    if (!signaled && doWait > 0.fastSeconds) {
-//        val elapsed = (FastDuration.now() - startTime)
-//        //println(" !!!!! SLEEP EXACT: ${elapsed - time}")
-//        NativeThread.sleepExact(time - elapsed)
-//    }
-//    return signaled
-//}
-
-//fun Lock.wait(time: FastDuration, precise: Boolean): Boolean {
-//    return if (precise) waitPrecise(time) else wait(time)
-//}
-//
-//fun Lock.wait(time: Duration, precise: Boolean): Boolean {
-//    return if (precise) waitPrecise(time) else wait(time)
-//}
 
 fun Lock.waitForever() {
     this { waitForeverNoLock() }

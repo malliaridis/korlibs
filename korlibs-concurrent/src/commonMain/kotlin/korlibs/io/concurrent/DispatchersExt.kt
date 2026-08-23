@@ -1,16 +1,13 @@
 package korlibs.io.concurrent
 
-import korlibs.io.async.*
+import korlibs.io.async._createFixedThreadDispatcher
+import kotlin.coroutines.CoroutineContext
 import kotlinx.coroutines.CloseableCoroutineDispatcher
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Runnable
-import kotlin.coroutines.CoroutineContext
-
-@Deprecated("", ReplaceWith("Dispatchers.ConcurrencyLevel", "kotlinx.coroutines.Dispatchers", "korlibs.io.async.ConcurrencyLevel"))
-val CONCURRENCY_COUNT: Int get() = Dispatchers.ConcurrencyLevel
 
 fun Dispatchers.createFixedThreadDispatcher(name: String, threadCount: Int = 1): CoroutineDispatcher =
     _createFixedThreadDispatcher(name, threadCount)
@@ -18,7 +15,6 @@ fun Dispatchers.createFixedThreadDispatcher(name: String, threadCount: Int = 1):
 fun Dispatchers.createSingleThreadedDispatcher(name: String): CoroutineDispatcher =
     _createFixedThreadDispatcher(name, 1)
 
-@OptIn(ExperimentalStdlibApi::class)
 fun Dispatchers.createRedirectedDispatcher(name: String, parent: CoroutineDispatcher): CoroutineDispatcher {
     return object : CoroutineDispatcher(), AutoCloseable {
         override fun close() = Unit
@@ -32,7 +28,6 @@ fun Dispatchers.createRedirectedDispatcher(name: String, parent: CoroutineDispat
     }
 }
 
-@OptIn(ExperimentalStdlibApi::class)
 @Suppress("OPT_IN_USAGE")
 fun CoroutineDispatcher.close() {
     when (this) {

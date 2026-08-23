@@ -1,12 +1,7 @@
 package korlibs.concurrent.lock
 
-import korlibs.time.*
+import korlibs.time.FastDuration
 
-/*
-actual class Lock actual constructor() : LockImpl(), BaseLockWithNotifyAndWait {
-    actual companion object {}
-}
-*/
 actual class Lock actual constructor() : BaseLockWithNotifyAndWait {
     @PublishedApi internal val lock = java.util.concurrent.locks.ReentrantLock()
 
@@ -17,17 +12,17 @@ actual class Lock actual constructor() : BaseLockWithNotifyAndWait {
     }
 
     actual override fun notify(unit: Unit) {
-        (lock as java.lang.Object).notify()
+        (lock as Object).notify()
     }
 
     actual override fun wait(time: FastDuration) {
         if (time.isPositiveInfinity) {
-            (lock as java.lang.Object).wait()
+            (lock as Object).wait()
         } else {
             val nanoSeconds = time.nanoseconds.toLong().coerceAtLeast(1L)
             val millis = nanoSeconds / 1_000_000
             val nanos = nanoSeconds % 1_000_000
-            (lock as java.lang.Object).wait(millis, nanos.toInt())
+            (lock as Object).wait(millis, nanos.toInt())
         }
     }
 }

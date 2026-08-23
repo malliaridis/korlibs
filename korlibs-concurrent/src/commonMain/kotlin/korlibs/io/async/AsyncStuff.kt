@@ -1,10 +1,17 @@
 package korlibs.io.async
 
-import korlibs.time.*
-import kotlinx.coroutines.*
-import kotlin.coroutines.*
+import korlibs.time.seconds
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineName
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-public expect class AsyncEntryPointResult
+expect class AsyncEntryPointResult
 
 expect fun asyncEntryPoint(callback: suspend () -> Unit): AsyncEntryPointResult
 expect fun asyncTestEntryPoint(callback: suspend () -> Unit): AsyncEntryPointResult
@@ -17,13 +24,6 @@ expect fun <T> runBlockingNoJs(context: CoroutineContext = EmptyCoroutineContext
 fun CoroutineContext.onCancel(check: () -> Boolean = { true }, block: (cancelled: Boolean) -> Unit): AutoCloseable {
     var running = true
     CoroutineScope(this).launch {
-        //suspendCancellableCoroutine<Unit> { c ->
-        //    c.invokeOnCancellation {
-        //        println("CANCELLED!")
-        //        block(true)
-        //        c.resume(Unit)
-        //    }
-        //}
 
         withContext(CoroutineName("onCancel"))  {
             try {
@@ -37,4 +37,3 @@ fun CoroutineContext.onCancel(check: () -> Boolean = { true }, block: (cancelled
     }
     return AutoCloseable { running = false }
 }
-

@@ -119,13 +119,6 @@ fun <TI, TO> AsyncSignal<TI>.mapSignal(transform: (TI) -> TO): AsyncSignal<TO> {
 
 suspend operator fun AsyncSignal<Unit>.invoke() = invoke(Unit)
 
-//////////////////////////////////
-
-
-//class AsyncSignal<T>(context: CoroutineContext) {
-
-//}
-
 fun <TI, TO> Signal<TI>.mapSignal(transform: (TI) -> TO): Signal<TO> {
     val out = Signal<TO>()
     this.add { out(transform(it)) }

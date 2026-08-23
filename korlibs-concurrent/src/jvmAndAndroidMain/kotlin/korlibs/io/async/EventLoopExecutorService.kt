@@ -1,8 +1,13 @@
 package korlibs.io.async
 
-import kotlinx.coroutines.*
-import java.util.concurrent.*
-import kotlin.coroutines.*
+import java.util.concurrent.Callable
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
+import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Runnable
+import kotlinx.coroutines.launch
 
 class EventLoopExecutorService(val context: CoroutineContext) : ExecutorService {
     var shutdown = false
@@ -11,30 +16,30 @@ class EventLoopExecutorService(val context: CoroutineContext) : ExecutorService 
     override fun shutdownNow(): MutableList<Runnable> = ArrayList<Runnable>().apply { shutdown() }
     override fun isShutdown(): Boolean = shutdown
 
-    override fun <T : Any?> submit(task: Callable<T>?): Future<T> {
+    override fun <T> submit(task: Callable<T>?): Future<T> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun <T : Any?> submit(task: Runnable?, result: T): Future<T> {
+    override fun <T> submit(task: Runnable?, result: T): Future<T> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun submit(task: Runnable?): Future<*> = submit(task, Unit)
     override fun awaitTermination(timeout: Long, unit: TimeUnit?): Boolean = true
 
-    override fun <T : Any?> invokeAny(tasks: MutableCollection<out Callable<T>>?): T {
+    override fun <T> invokeAny(tasks: MutableCollection<out Callable<T>>?): T {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun <T : Any?> invokeAny(tasks: MutableCollection<out Callable<T>>?, timeout: Long, unit: TimeUnit?): T {
+    override fun <T> invokeAny(tasks: MutableCollection<out Callable<T>>?, timeout: Long, unit: TimeUnit?): T {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun <T : Any?> invokeAll(tasks: MutableCollection<out Callable<T>>?): MutableList<Future<T>> {
+    override fun <T> invokeAll(tasks: MutableCollection<out Callable<T>>?): MutableList<Future<T>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun <T : Any?> invokeAll(
+    override fun <T> invokeAll(
         tasks: MutableCollection<out Callable<T>>?,
         timeout: Long,
         unit: TimeUnit?
@@ -48,6 +53,5 @@ class EventLoopExecutorService(val context: CoroutineContext) : ExecutorService 
         CoroutineScope(context).launch {
             command.run()
         }
-        //context.dispatcher.dispatch(context, Runnable { command.run() })
     }
 }

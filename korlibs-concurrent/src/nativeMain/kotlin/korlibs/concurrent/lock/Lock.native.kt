@@ -1,32 +1,17 @@
 package korlibs.concurrent.lock
 
-import korlibs.time.*
-import kotlinx.cinterop.*
-import platform.posix.*
-import kotlin.time.*
-
-/*
-actual class Lock actual constructor() : LockImpl(), BaseLockWithNotifyAndWait {
-    actual companion object {}
-}
-
-actual class Lock actual constructor() : BaseLockWithNotifyAndWait {
-    actual companion object {}
-
-    actual override fun lock() {
-    }
-
-    actual override fun unlock() {
-    }
-
-    actual override fun notify(unit: Unit) {
-        pthread_cond_signal
-    }
-
-    actual override fun wait(time: FastDuration): Boolean {
-    }
-}
-*/
+import korlibs.time.nanoseconds
+import korlibs.time.seconds
+import kotlin.time.Duration
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.NativePlacement
+import kotlinx.cinterop.UnsafeNumber
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.convert
+import kotlinx.cinterop.ptr
+import platform.posix.CLOCK_REALTIME
+import platform.posix.clock_gettime
+import platform.posix.timespec
 
 @OptIn(UnsafeNumber::class)
 fun timespec.toDuration(): Duration = (tv_sec.toLong().seconds + tv_nsec.toLong().nanoseconds)

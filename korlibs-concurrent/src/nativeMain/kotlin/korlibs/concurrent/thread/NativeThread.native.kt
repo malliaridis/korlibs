@@ -1,15 +1,25 @@
 package korlibs.concurrent.thread
 
-import korlibs.concurrent.lock.*
-import korlibs.time.*
-import kotlinx.atomicfu.locks.*
-import kotlinx.cinterop.*
-import platform.posix.*
-import kotlin.native.runtime.*
+import korlibs.time.FastDuration
+import kotlin.native.runtime.GC
+import kotlin.native.runtime.NativeRuntimeApi
+import kotlinx.atomicfu.locks.SynchronizedObject
+import kotlinx.atomicfu.locks.withLock
+import kotlinx.cinterop.COpaquePointer
+import kotlinx.cinterop.ExperimentalForeignApi
+import kotlinx.cinterop.UnsafeNumber
+import kotlinx.cinterop.alloc
+import kotlinx.cinterop.asStableRef
+import kotlinx.cinterop.convert
+import kotlinx.cinterop.memScoped
+import kotlinx.cinterop.ptr
+import platform.posix.SCHED_OTHER
+import platform.posix.nanosleep
+import platform.posix.sched_yield
+import platform.posix.timespec
 
 actual typealias NativeNativeThread = Long
 
-//private val SCHED_POLICY = SCHED_RR
 internal val SCHED_POLICY = SCHED_OTHER
 
 internal actual fun NativeNativeThread_getId(thread: NativeNativeThread): Long = thread
@@ -52,13 +62,10 @@ internal actual fun NativeThreadThread_sleep(time: FastDuration): Unit {
     memScoped {
         val timespec = alloc<timespec>()
         val nanoseconds = time.fastNanoseconds.toLong()
-        //val seconds = time.seconds
-        //val nseconds = (seconds % 1.0) * 1_000_000_000L
         timespec.tv_sec = (nanoseconds / 1_000_000_000L).convert()
         timespec.tv_nsec = (nanoseconds % 1_000_000_000L).convert()
         nanosleep(timespec.ptr, null)
     }
-    //usleep(time.fastMicroseconds.toLong().convert())
 }
 @PublishedApi internal actual inline fun NativeThreadThread_spinWhile(cond: () -> Boolean): Unit {
     while (cond()) {

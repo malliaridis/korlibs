@@ -1,10 +1,15 @@
 package korlibs.concurrent.thread
 
-import korlibs.time.*
-import kotlin.jvm.*
-import kotlin.time.*
+import korlibs.time.DateTime
+import korlibs.time.FastDuration
+import korlibs.time.compareTo
+import korlibs.time.fast
+import korlibs.time.fastMilliseconds
+import kotlin.jvm.JvmInline
+import kotlin.time.Duration
 import kotlin.time.Duration.Companion.milliseconds
 import kotlin.time.Duration.Companion.seconds
+import kotlin.time.TimeSource
 
 @JvmInline
 value class NativeThreadPriority(val ratio: Double) {
@@ -55,16 +60,10 @@ value class NativeThread(val native: NativeNativeThread) {
     fun interrupt() = NativeNativeThread_interrupt(native)
     fun join() = NativeNativeThread_join(native)
 
-    //override fun toString(): String = "NativeThread(id=$id, name=$name, priority=$priority, isDaemon=$isDaemon)"
     override fun toString(): String = "NativeThread(id=$id, name=$name)"
-    //override fun toString(): String = "NativeThread(id=$id)"
 
     companion object {
         val isSupported: Boolean get() = NativeThreadThread_isSupported
-        @Deprecated("", ReplaceWith("current.id", "korlibs.concurrent.thread.NativeNative.Companion.current"))
-        val currentThreadId: Long get() = current.id
-        @Deprecated("", ReplaceWith("current.name", "korlibs.concurrent.thread.NativeNative.Companion.current"))
-        val currentThreadName: String? get() = current.name
         val current: NativeThread get() = NativeThread(NativeThreadThread_current())
 
         fun start(name: String? = null, isDaemon: Boolean = false, priority: NativeThreadPriority = NativeThreadPriority.NORMAL, code: () -> Unit): NativeThread {
@@ -81,8 +80,7 @@ fun NativeThread.Companion.sleepUntil(date: DateTime, exact: Boolean = true) {
     NativeThread.sleep(date - DateTime.now(), exact)
 }
 
-//@Deprecated("Use NativeThread.start instead")
-public fun nativeThread(
+fun nativeThread(
     isDaemon: Boolean = false,
     name: String? = null,
     priority: NativeThreadPriority = NativeThreadPriority.NORMAL,
@@ -104,8 +102,6 @@ fun NativeThread.Companion.sleep(time: FastDuration, exact: Boolean) {
 fun NativeThread.Companion.sleepExact(time: Duration) = sleepExact(time.fast)
 fun NativeThread.Companion.sleepExact(time: FastDuration) {
     val start = TimeSource.Monotonic.markNow()
-    //val imprecision = 10.milliseconds
-    //val imprecision = 1.milliseconds
     val imprecision = 4.milliseconds
     val javaSleep = time - imprecision
     if (javaSleep >= 0.seconds) {
@@ -113,10 +109,6 @@ fun NativeThread.Companion.sleepExact(time: FastDuration) {
     }
     NativeThread.spinWhile { start.elapsedNow() < time }
 }
-
-//fun NativeThread.Companion.sleepUntil(date: DateTime, exact: Boolean = true) {
-//    sleep(date - DateTime.now(), exact)
-//}
 
 inline fun NativeThread.Companion.sleepWhile(stepTime: FastDuration = 1.0.fastMilliseconds, exact: Boolean = false, cond: () -> Boolean) {
     while (cond()) {
