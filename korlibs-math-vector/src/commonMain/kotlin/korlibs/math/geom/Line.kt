@@ -43,7 +43,6 @@ data class Line2D(val a: Vector2D, val b: Vector2D) : SimpleShape2D {
         val px = p.x
         val py = p.y
 
-        // return this.getIntersectionPoint(Line(point, Point.fromPolar(point, this.angle + 90.degrees)))!!
         // get dot product of e1, e2
         val e1x = v2x - v1x
         val e1y = v2y - v1y
@@ -144,6 +143,12 @@ data class Line2D(val a: Vector2D, val b: Vector2D) : SimpleShape2D {
     val isNIL get() = a.x.isNaN()
     fun isNaN(): Boolean = a.y.isNaN()
 
+    // @TODO: Should we create a common interface make projectedPoint part of it? (for ecample to project other kind of shapes)
+    // https://math.stackexchange.com/questions/62633/orthogonal-projection-of-a-point-onto-a-line
+    // http://www.sunshine2k.de/coding/java/PointOnLine/PointOnLine.html
+    @ExperimentalKorlibsApi
+    fun Line.projectedPoint(point: Point): Point = projectedPoint(a, b, point)
+
     companion object {
         val ZERO = Line(Point.ZERO, Point.ZERO)
         val NaN = Line(Point.NaN, Point.NaN)
@@ -173,5 +178,49 @@ data class Line2D(val a: Vector2D, val b: Vector2D) : SimpleShape2D {
 
         fun getIntersectXY(a: Point, b: Point, c: Point, d: Point): Point? =
             getIntersectXY(a.x, a.y, b.x, b.y, c.x, c.y, d.x, d.y)
+
+        @ExperimentalKorlibsApi
+        fun lineIntersectionPoint(l1: Line, l2: Line): Point? = l1.getLineIntersectionPoint(l2)
+
+        @ExperimentalKorlibsApi
+        fun projectedPoint(
+            v1x: Double,
+            v1y: Double,
+            v2x: Double,
+            v2y: Double,
+            px: Double,
+            py: Double,
+        ): Point {
+            // return this.getIntersectionPoint(Line(point, Point.fromPolar(point, this.angle + 90.degrees)))!!
+            // get dot product of e1, e2
+            val e1x = v2x - v1x
+            val e1y = v2y - v1y
+            val e2x = px - v1x
+            val e2y = py - v1y
+            val valDp = MPoint.dot(e1x, e1y, e2x, e2y)
+            // get length of vectors
+
+            val lenLineE1 = kotlin.math.hypot(e1x, e1y)
+            val lenLineE2 = kotlin.math.hypot(e2x, e2y)
+
+            // What happens if lenLineE1 or lenLineE2 are zero?, it would be a division by zero.
+            // Does that mean that the point is on the line, and we should use it?
+            if (lenLineE1 == 0.0 || lenLineE2 == 0.0) {
+                return Point(px, py)
+            }
+
+            val cos = valDp / (lenLineE1 * lenLineE2)
+
+            // length of v1P'
+            val projLenOfLine = cos * lenLineE2
+
+            return Point((v1x + (projLenOfLine * e1x) / lenLineE1), (v1y + (projLenOfLine * e1y) / lenLineE1))
+        }
+
+        @ExperimentalKorlibsApi
+        fun projectedPoint(v1: Point, v2: Point, point: Point): Point = projectedPoint(v1.x, v1.y, v2.x, v2.y, point.x, point.y)
+
+        @ExperimentalKorlibsApi
+        fun segmentIntersectionPoint(l1: Line, l2: Line): Point? = l1.getSegmentIntersectionPoint(l2)
     }
 }

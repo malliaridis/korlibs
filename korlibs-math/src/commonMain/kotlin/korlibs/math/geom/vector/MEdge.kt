@@ -3,7 +3,7 @@ package korlibs.math.geom.vector
 import korlibs.math.annotations.KormaExperimental
 import korlibs.math.annotations.KormaMutableApi
 import korlibs.math.geom.Angle
-import korlibs.math.geom.MLine
+import korlibs.math.geom.Line
 import korlibs.math.geom.Point
 import korlibs.math.geom.PointInt
 import korlibs.math.geom.Vector2I
@@ -59,7 +59,7 @@ class MEdge {
         }
 
         fun getIntersectXY(Ax: Double, Ay: Double, Bx: Double, By: Double, Cx: Double, Cy: Double, Dx: Double, Dy: Double): Point? {
-            return MLine.getIntersectXY(Ax, Ay, Bx, By, Cx, Cy, Dx, Dy)
+            return Line.getIntersectXY(Ax, Ay, Bx, By, Cx, Cy, Dx, Dy)
         }
     }
 

@@ -15,7 +15,6 @@ import korlibs.math.annotations.KormaExperimental
 import korlibs.math.geom.BoundsBuilder
 import korlibs.math.geom.Line
 import korlibs.math.geom.LineIntersection
-import korlibs.math.geom.MLine
 import korlibs.math.geom.MPoint
 import korlibs.math.geom.Point
 import korlibs.math.geom.PointArrayList
@@ -290,7 +289,7 @@ class PolygonScanline : RastScale() {
         return ss.contains(x)
     }
 
-    fun getAllLines(): List<MLine> = allEdges.map { MLine(it.ax.d, it.ay.d, it.bx.d, it.by.d) }
+    fun getAllLines(): List<Line> = allEdges.map { Line(it.ax.d, it.ay.d, it.bx.d, it.by.d) }
 
     fun getLineIntersection(x0: Int, y0: Int, x1: Int, y1: Int, out: LineIntersection = LineIntersection()): LineIntersection? {
         // @TODO: Optimize not iterating over all the edges, but only the ones between y0 and y1
@@ -300,17 +299,20 @@ class PolygonScanline : RastScale() {
                 x0.toDouble(), y0.toDouble(), x1.toDouble(), y1.toDouble(),
             )
             if (res != null) {
-                out.intersection = res
-                val iX = out.intersection.x
-                val iY = out.intersection.y
+                val lineIntersection = out.copy(intersection = res)
+                val iX = lineIntersection.intersection.x
+                val iY = lineIntersection.intersection.y
                 if (iY.toInt() in y0..y1 || iY.toInt() in y1..y0) {
                     println("index=$index, edge=$edge")
-                    out.setFrom(
-                        edge.ax.d, edge.ay.d, edge.bx.d, edge.by.d,
-                        out.intersection.x.toInt().d, out.intersection.y.toInt().d,
-                        MPoint.distance(x0.d, y0.d, x1.d, y1.d)
+                    return LineIntersection.setFrom(
+                        x0 = edge.ax.d,
+                        y0 = edge.ay.d,
+                        x1 = edge.bx.d,
+                        y1 = edge.by.d,
+                        ix = lineIntersection.intersection.x.toInt().d,
+                        iy = lineIntersection.intersection.y.toInt().d,
+                        normalLength = MPoint.distance(x0.d, y0.d, x1.d, y1.d)
                     )
-                    return out
                 }
             }
         }

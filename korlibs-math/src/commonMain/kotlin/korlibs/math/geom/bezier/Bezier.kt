@@ -10,7 +10,6 @@ import korlibs.math.convertRange
 import korlibs.math.geom.Angle
 import korlibs.math.geom.Circle
 import korlibs.math.geom.Line
-import korlibs.math.geom.MLine
 import korlibs.math.geom.Matrix
 import korlibs.math.geom.Point
 import korlibs.math.geom.PointArrayList

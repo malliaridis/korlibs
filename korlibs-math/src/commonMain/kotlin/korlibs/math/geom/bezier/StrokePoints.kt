@@ -1,7 +1,7 @@
 package korlibs.math.geom.bezier
 
 import korlibs.math.geom.DoubleVectorArrayList
-import korlibs.math.geom.MLine
+import korlibs.math.geom.Line
 import korlibs.math.geom.PointList
 import korlibs.math.geom.fastForEachGeneric
 import korlibs.math.geom.vector.StrokeInfo
@@ -16,7 +16,7 @@ import korlibs.math.geom.vector.toCurvesList
 interface StrokePoints {
     val vector: DoubleVectorArrayList
     val debugPoints: PointList
-    val debugSegments: List<MLine>
+    val debugSegments: List<Line>
     val mode: StrokePointsMode
 
     fun scale(scale: Double) {

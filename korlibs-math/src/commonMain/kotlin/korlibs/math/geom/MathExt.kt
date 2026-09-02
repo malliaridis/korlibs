@@ -5,54 +5,6 @@ package korlibs.math.geom
 import korlibs.math.annotations.KormaMutableApi
 import korlibs.math.clamp
 
-fun MLine.Companion.projectedPoint(
-    v1x: Double,
-    v1y: Double,
-    v2x: Double,
-    v2y: Double,
-    px: Double,
-    py: Double,
-): Point {
-    // return this.getIntersectionPoint(Line(point, Point.fromPolar(point, this.angle + 90.degrees)))!!
-    // get dot product of e1, e2
-    val e1x = v2x - v1x
-    val e1y = v2y - v1y
-    val e2x = px - v1x
-    val e2y = py - v1y
-    val valDp = MPoint.dot(e1x, e1y, e2x, e2y)
-    // get length of vectors
-
-    val lenLineE1 = kotlin.math.hypot(e1x, e1y)
-    val lenLineE2 = kotlin.math.hypot(e2x, e2y)
-
-    // What happens if lenLineE1 or lenLineE2 are zero?, it would be a division by zero.
-    // Does that mean that the point is on the line, and we should use it?
-    if (lenLineE1 == 0.0 || lenLineE2 == 0.0) {
-        return Point(px, py)
-    }
-
-    val cos = valDp / (lenLineE1 * lenLineE2)
-
-    // length of v1P'
-    val projLenOfLine = cos * lenLineE2
-
-    return Point((v1x + (projLenOfLine * e1x) / lenLineE1), (v1y + (projLenOfLine * e1y) / lenLineE1))
-}
-
-fun MLine.Companion.projectedPoint(v1: Point, v2: Point, point: Point): Point = projectedPoint(v1.x, v1.y, v2.x, v2.y, point.x, point.y)
-
-fun MLine.Companion.lineIntersectionPoint(l1: MLine, l2: MLine): Point? = l1.getLineIntersectionPoint(l2)
-
-fun MLine.Companion.segmentIntersectionPoint(
-    l1: MLine,
-    l2: MLine,
-): Point? = l1.getSegmentIntersectionPoint(l2)
-
-// @TODO: Should we create a common interface make projectedPoint part of it? (for ecample to project other kind of shapes)
-// https://math.stackexchange.com/questions/62633/orthogonal-projection-of-a-point-onto-a-line
-// http://www.sunshine2k.de/coding/java/PointOnLine/PointOnLine.html
-fun MLine.projectedPoint(point: Point): Point = MLine.projectedPoint(a, b, point)
-
 val MMatrix?.immutable: Matrix get() = if (this == null) Matrix.NIL else Matrix(a, b, c, d, tx, ty)
 
 @Deprecated("", ReplaceWith("this")) val Matrix.immutable: Matrix get() = this

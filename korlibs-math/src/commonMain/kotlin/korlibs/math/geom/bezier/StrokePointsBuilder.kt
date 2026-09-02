@@ -1,10 +1,11 @@
 package korlibs.math.geom.bezier
 
 import korlibs.datastructure.getCyclic
+import korlibs.math.annotations.KormaExperimental
 import korlibs.math.clamp
 import korlibs.math.geom.Angle
 import korlibs.math.geom.DoubleVectorArrayList
-import korlibs.math.geom.MLine
+import korlibs.math.geom.Line
 import korlibs.math.geom.Point
 import korlibs.math.geom.PointArrayList
 import korlibs.math.geom.degrees
@@ -18,6 +19,7 @@ import korlibs.math.interpolation.interpolate
 import korlibs.math.interpolation.toRatioClamped
 import kotlin.math.absoluteValue
 
+@OptIn(KormaExperimental::class)
 class StrokePointsBuilder(
     val width: Double,
     override val mode: StrokePointsMode = StrokePointsMode.NON_SCALABLE_POS,
@@ -33,7 +35,7 @@ class StrokePointsBuilder(
     )
 
     override val debugPoints: PointArrayList = PointArrayList()
-    override val debugSegments: ArrayList<MLine> = arrayListOf()
+    override val debugSegments: ArrayList<Line> = arrayListOf()
 
     override fun toString(): String = "StrokePointsBuilder($width, $vector)"
 
@@ -64,15 +66,15 @@ class StrokePointsBuilder(
         val nextTangent = next.tangent(Ratio.ZERO)
         val nextNormal = next.normal(Ratio.ZERO)
 
-        val currLine0 = MLine.fromPointAndDirection(commonPoint + currNormal * width, currTangent)
-        val currLine1 = MLine.fromPointAndDirection(commonPoint + currNormal * -width, currTangent)
+        val currLine0 = Line.fromPointAndDirection(commonPoint + currNormal * width, currTangent)
+        val currLine1 = Line.fromPointAndDirection(commonPoint + currNormal * -width, currTangent)
 
-        val nextLine0 = MLine.fromPointAndDirection(commonPoint + nextNormal * width, nextTangent)
-        val nextLine1 = MLine.fromPointAndDirection(commonPoint + nextNormal * -width, nextTangent)
+        val nextLine0 = Line.fromPointAndDirection(commonPoint + nextNormal * width, nextTangent)
+        val nextLine1 = Line.fromPointAndDirection(commonPoint + nextNormal * -width, nextTangent)
 
-        val intersection0 = MLine.lineIntersectionPoint(currLine0, nextLine0)
-        val intersection1 = MLine.lineIntersectionPoint(currLine1, nextLine1)
-        if (intersection0 == null || intersection1 == null) { // || !intersection0.x.isFinite() || !intersection1.x.isFinite()) {
+        val intersection0 = currLine0.getIntersectionPoint(nextLine0)
+        val intersection1 = currLine1.getIntersectionPoint(nextLine1)
+        if (intersection0 == null || intersection1 == null) {
             addTwoPoints(commonPoint, currNormal, width)
             return
         }
@@ -90,8 +92,8 @@ class StrokePointsBuilder(
             // @TODO: We should try to find the common edge (except when the two lines overlaps), to avoid overlapping in normal curves
 
             var p3: Point? = when {
-                direction <= 0.0 -> MLine.lineIntersectionPoint(currLine1, nextLine1)
-                else -> MLine.lineIntersectionPoint(currLine0, nextLine0)
+                direction <= 0.0 -> currLine1.getIntersectionPoint(nextLine1)
+                else -> currLine0.getIntersectionPoint(nextLine0)
             }
 
             val p4Line = if (direction < 0.0) nextLine1 else nextLine0
@@ -107,18 +109,16 @@ class StrokePointsBuilder(
             val p5 = ratio.interpolate(p4, p3)
 
             if (generateDebug) {
-                debugSegments.add(nextLine1.scalePoints(1000.0).clone())
-                debugSegments.add(currLine1.scalePoints(1000.0).clone())
-                debugSegments.add(nextLine0.scalePoints(1000.0).clone())
-                debugSegments.add(currLine0.scalePoints(1000.0).clone())
-                debugSegments.add(MLine.fromPointAndDirection(commonPoint, currTangent).scalePoints(1000.0).clone())
-                debugSegments.add(MLine.fromPointAndDirection(commonPoint, nextTangent).scalePoints(1000.0).clone())
+                debugSegments.add(nextLine1.scaledPoints(1000.0))
+                debugSegments.add(currLine1.scaledPoints(1000.0))
+                debugSegments.add(nextLine0.scaledPoints(1000.0))
+                debugSegments.add(currLine0.scaledPoints(1000.0))
+                debugSegments.add(Line.fromPointAndDirection(commonPoint, currTangent).scaledPoints(1000.0))
+                debugSegments.add(Line.fromPointAndDirection(commonPoint, nextTangent).scaledPoints(1000.0))
                 debugPoints.add(p3)
                 debugPoints.add(p4)
                 debugPoints.add(p5)
             }
-
-            //println("angleB=$angleB")
 
             // @TODO: We cannot do this with the tangent lines, we should actually intersect the outline curves for this to work as expected
             //val p6 = p3

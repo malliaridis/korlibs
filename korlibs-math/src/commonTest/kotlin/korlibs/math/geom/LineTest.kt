@@ -8,8 +8,8 @@ class LineTest {
 
     @Test
     fun testIntersecting() {
-        val line1 = MLine(Point(284, 158), Point(246, 158))
-        val line2 = MLine(Point(303.89273932825165, 198.88732201874024), Point(257.05152496464524, 155.2765362319343))
+        val line1 = Line(Point(284, 158), Point(246, 158))
+        val line2 = Line(Point(303.89273932825165, 198.88732201874024), Point(257.05152496464524, 155.2765362319343))
         assertEquals(true, line1.intersectsSegment(line2))
         assertEqualsFloat(38.0, line1.length)
         assertEqualsFloat(64.0, line2.length, absoluteTolerance = tolerance)
@@ -20,19 +20,19 @@ class LineTest {
 
     @Test
     fun testProjectedPoint() {
-        assertEqualsFloat(Point(0, 50), MLine(Point(0, 0), Point(0, 100)).projectedPoint(Point(50, 50)))
-        assertEqualsFloat(Point(50, 50), MLine(Point(0, 0), Point(100, 100)).projectedPoint(Point(100, 0)))
+        assertEqualsFloat(Point(0, 50), Line(Point(0, 0), Point(0, 100)).projectedPoint(Point(50, 50)))
+        assertEqualsFloat(Point(50, 50), Line(Point(0, 0), Point(100, 100)).projectedPoint(Point(100, 0)))
 
         // On line
-        assertEqualsFloat(Point(0, 0), MLine(Point(0, 0), Point(0, 100)).projectedPoint(Point(0, 0)))
-        assertEqualsFloat(Point(0, 50), MLine(Point(0, 0), Point(0, 100)).projectedPoint(Point(0, 50)))
-        assertEqualsFloat(Point(0, 100), MLine(Point(0, 0), Point(0, 100)).projectedPoint(Point(0, 100)))
-        assertEqualsFloat(Point(0, 150), MLine(Point(0, 0), Point(0, 100)).projectedPoint(Point(0, 150)))
+        assertEqualsFloat(Point(0, 0), Line(Point(0, 0), Point(0, 100)).projectedPoint(Point(0, 0)))
+        assertEqualsFloat(Point(0, 50), Line(Point(0, 0), Point(0, 100)).projectedPoint(Point(0, 50)))
+        assertEqualsFloat(Point(0, 100), Line(Point(0, 0), Point(0, 100)).projectedPoint(Point(0, 100)))
+        assertEqualsFloat(Point(0, 150), Line(Point(0, 0), Point(0, 100)).projectedPoint(Point(0, 150)))
     }
 
     @Test
     fun testLineData() {
-        val gen = { MLine(Point(0, 0), Point(100, 100)) }
+        val gen = { Line(Point(0, 0), Point(100, 100)) }
         assertEqualsFloat(gen(), gen())
         assertEquals(gen().hashCode(), gen().hashCode())
     }
