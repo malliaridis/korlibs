@@ -63,6 +63,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.korlibsPlatform)
+            implementation(projects.korlibsAnnotations)
             api(projects.korlibsMathCore)
         }
         commonTest.dependencies {
