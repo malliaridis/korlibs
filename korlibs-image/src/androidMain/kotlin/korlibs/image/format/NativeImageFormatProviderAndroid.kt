@@ -37,6 +37,7 @@ import korlibs.image.vector.Context2d
 import korlibs.image.vector.CycleMethod
 import korlibs.io.android.androidContext
 import korlibs.math.clamp01
+import korlibs.math.geom.MMatrix
 import korlibs.math.geom.vector.LineCap
 import korlibs.math.geom.vector.LineJoin
 import korlibs.math.geom.vector.VectorPath
@@ -293,7 +294,7 @@ class AndroidContext2dRenderer(val bmp: android.graphics.Bitmap, val antialiasin
         this.setValues(matrixValues)
     }
 
-    fun android.graphics.Matrix.setTo(m: korlibs.math.geom.MMatrix) = this.apply {
+    fun android.graphics.Matrix.setTo(m: MMatrix) = this.apply {
         matrixValues[Matrix.MSCALE_X] = m.a.toFloat()
         matrixValues[Matrix.MSKEW_X] = m.b.toFloat()
         matrixValues[Matrix.MSKEW_Y] = m.c.toFloat()
