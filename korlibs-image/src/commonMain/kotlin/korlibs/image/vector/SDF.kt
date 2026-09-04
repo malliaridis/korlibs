@@ -9,7 +9,6 @@ import korlibs.image.bitmap.NativeImageContext2d
 import korlibs.image.bitmap.sdf.NewSDF
 import korlibs.image.color.Colors
 import korlibs.image.color.RGBA
-import korlibs.math.geom.MPoint
 import korlibs.math.geom.Point
 import korlibs.math.geom.bezier.Bezier
 import korlibs.math.geom.vector.VectorPath
@@ -134,7 +133,6 @@ class ColorizedBeziers(val beziers: List<ColoredBezier>) {
 
 class ProjectCurvesLookup(val beziers: List<Bezier>) {
     private val tempProjected = Bezier.ProjectedPoint()
-    private val tempPoint = MPoint()
 
     fun closestDistance(point: Point): Double = Point.distance(point, closest(point)).toDouble()
 
@@ -142,22 +140,18 @@ class ProjectCurvesLookup(val beziers: List<Bezier>) {
         if (beziers.isEmpty()) return Point(0, 0)
 
         var minDistSq: Double = Double.POSITIVE_INFINITY
-        //var closest: BezierWithInfo = beziers.first()
 
         // Find bezier with closest, farthest point against [point]
         beziers.fastForEach {
             val dist = it.outerCircle.distanceFarthestSquared(point)
             if (dist < minDistSq) {
                 minDistSq = dist.toDouble()
-                //closest = it
             }
         }
 
         // Cull Beziers whose nearest point is farther than the found farthest nearest point
         var bminDistSq = Double.POSITIVE_INFINITY
         var out = Point()
-        //val keep = beziers.filter { it.outerCircle.distanceClosestSquared(point) <= minDistSq }
-        //println("keep=${keep.size}, total=${beziers.size}")
         beziers.fastForEach {
             if (it.outerCircle.distanceClosestSquared(point) > minDistSq) return@fastForEach
             it.project(point, tempProjected)

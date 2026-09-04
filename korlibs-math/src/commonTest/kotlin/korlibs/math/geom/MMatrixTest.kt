@@ -24,8 +24,8 @@ class MMatrixTest {
         val matrix = MMatrix(2, 0, 0, 3, 10, 15)
         assertEquals(30.0, matrix.transformX(10, 20))
         assertEquals(75.0, matrix.transformY(10, 20))
-        assertEquals(MPoint(30.0, 75.0), matrix.transform(MPoint(10, 20)))
-        assertEquals(MPoint(20.0, 60.0), matrix.deltaTransformPoint(MPoint(10, 20)))
+        assertEquals(Point(30.0, 75.0), matrix.transform(Point(10, 20)))
+        assertEquals(Point(20.0, 60.0), matrix.deltaTransformPoint(MPoint(10, 20)))
     }
 
     @Test

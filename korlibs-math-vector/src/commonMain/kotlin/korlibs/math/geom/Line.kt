@@ -1,5 +1,6 @@
 package korlibs.math.geom
 
+import korlibs.annotations.ExperimentalKorlibsApi
 import korlibs.math.almostEquals
 import korlibs.math.annotations.KormaExperimental
 import korlibs.math.clamp
@@ -10,7 +11,6 @@ import kotlin.math.sign
 typealias Line2 = Line
 typealias Line = Line2D
 
-//@KormaValueApi
 data class Line2D(val a: Vector2D, val b: Vector2D) : SimpleShape2D {
     override val closed: Boolean get() = false
 
@@ -191,13 +191,12 @@ data class Line2D(val a: Vector2D, val b: Vector2D) : SimpleShape2D {
             px: Double,
             py: Double,
         ): Point {
-            // return this.getIntersectionPoint(Line(point, Point.fromPolar(point, this.angle + 90.degrees)))!!
             // get dot product of e1, e2
             val e1x = v2x - v1x
             val e1y = v2y - v1y
             val e2x = px - v1x
             val e2y = py - v1y
-            val valDp = MPoint.dot(e1x, e1y, e2x, e2y)
+            val valDp = Point.dot(e1x, e1y, e2x, e2y)
             // get length of vectors
 
             val lenLineE1 = kotlin.math.hypot(e1x, e1y)

@@ -15,7 +15,6 @@ import korlibs.math.annotations.KormaExperimental
 import korlibs.math.geom.BoundsBuilder
 import korlibs.math.geom.Line
 import korlibs.math.geom.LineIntersection
-import korlibs.math.geom.MPoint
 import korlibs.math.geom.Point
 import korlibs.math.geom.PointArrayList
 import korlibs.math.geom.PointInt
@@ -311,7 +310,7 @@ class PolygonScanline : RastScale() {
                         y1 = edge.by.d,
                         ix = lineIntersection.intersection.x.toInt().d,
                         iy = lineIntersection.intersection.y.toInt().d,
-                        normalLength = MPoint.distance(x0.d, y0.d, x1.d, y1.d)
+                        normalLength = Point.distance(x0.d, y0.d, x1.d, y1.d)
                     )
                 }
             }

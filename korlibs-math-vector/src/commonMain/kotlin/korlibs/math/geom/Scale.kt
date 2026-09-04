@@ -1,24 +1,16 @@
 package korlibs.math.geom
 
-//@KormaValueApi
-//inline class Scale internal constructor(internal val raw: Float2Pack) {
 data class Scale(val scaleX: Double, val scaleY: Double) {
     companion object {
         val IDENTITY = Scale(1f, 1f)
     }
 
-    //val scaleX: Float get() = raw.f0
-    //val scaleY: Float get() = raw.f1
     val scaleAvg: Double get() = scaleX * .5 + scaleY * .5
-
-    @Deprecated("", ReplaceWith("scaleAvg"))
-    val avg: Double get() = scaleAvg
 
     constructor() : this(1f, 1f)
     constructor(scale: Float) : this(scale, scale)
     constructor(scale: Double) : this(scale, scale)
     constructor(scale: Int) : this(scale.toDouble())
-    //constructor(scaleX: Float, scaleY: Float) : this(float2PackOf(scaleX, scaleY))
     constructor(scaleX: Float, scaleY: Float) : this(scaleX.toDouble(), scaleY.toDouble())
     constructor(scaleX: Int, scaleY: Int) : this(scaleX.toDouble(), scaleY.toDouble())
 

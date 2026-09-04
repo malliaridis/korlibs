@@ -11,21 +11,11 @@ import kotlin.math.tan
 // @TODO: WIP
 // @TODO: value class
 // Stored as four consecutive column vectors (effectively stored in column-major order) see https://en.wikipedia.org/wiki/Row-_and_column-major_order
-// v[Row][Column]
-//@KormaExperimental
-//@KormaValueApi
-//inline class Matrix4 private constructor(
 /**
  * Useful for representing complete transforms: rotations, scales, translations, projections, etc.
  */
 data class Matrix4 private constructor(
     private val data: FloatArray,
-    //val c0: Vector4, val c1: Vector4, val c2: Vector4, val c3: Vector4,
-
-    //val v00: Float, val v10: Float, val v20: Float, val v30: Float,
-    //val v01: Float, val v11: Float, val v21: Float, val v31: Float,
-    //val v02: Float, val v12: Float, val v22: Float, val v32: Float,
-    //val v03: Float, val v13: Float, val v23: Float, val v33: Float,
 ) : IsAlmostEqualsF<Matrix4> {
     init {
         check(data.size == 16)
@@ -73,15 +63,6 @@ data class Matrix4 private constructor(
         (v10 * v01 * v22 * v33) +
         (v00 * v11 * v22 * v33)
 
-    // Use toTRS/decompose
-    //fun decomposeProjection(): Vector4 = c3
-    //fun decomposeTranslation(): Vector4 = r3.copy(w = 1f)
-    //fun decomposeScale(): Vector4 {
-    //    val x = r0.length3
-    //    val y = r1.length3
-    //    val z = r2.length3
-    //    return Vector4(x, y, z, 1f)
-    //}
     fun decomposeRotation(rowNormalise: Boolean = true): Quaternion {
         var v1 = this.r0
         var v2 = this.r1

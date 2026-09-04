@@ -6,6 +6,7 @@ package korlibs.annotations
     AnnotationTarget.FUNCTION,
     AnnotationTarget.PROPERTY,
     AnnotationTarget.FIELD,
-    AnnotationTarget.CONSTRUCTOR
+    AnnotationTarget.CONSTRUCTOR,
+    AnnotationTarget.TYPEALIAS,
 )
 annotation class ExperimentalKorlibsApi()

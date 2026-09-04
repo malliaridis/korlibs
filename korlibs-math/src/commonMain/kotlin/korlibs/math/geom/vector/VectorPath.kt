@@ -1,26 +1,17 @@
 package korlibs.math.geom.vector
 
 import korlibs.datastructure.DoubleArrayList
-import korlibs.datastructure.DoubleList
 import korlibs.datastructure.Extra
 import korlibs.datastructure.IntArrayList
-import korlibs.datastructure.extraProperty
 import korlibs.datastructure.iterators.fastForEach
 import korlibs.math.annotations.KormaExperimental
 import korlibs.math.geom.BoundsBuilder
 import korlibs.math.geom.Line
 import korlibs.math.geom.LineIntersection
-import korlibs.math.geom.MPoint
 import korlibs.math.geom.Matrix
 import korlibs.math.geom.Point
 import korlibs.math.geom.Rectangle
 import korlibs.math.geom.bezier.Bezier
-import korlibs.math.geom.bezier.Curves
-import korlibs.math.geom.bezier.fastForEachBezier
-import korlibs.math.geom.bezier.toCurves
-import korlibs.math.geom.bezier.toDashes
-import korlibs.math.geom.bezier.toVectorPath
-import korlibs.math.geom.ds.BVH2D
 import korlibs.math.geom.shape.AbstractShape2D
 import korlibs.math.roundDecimalPlaces
 import korlibs.number.niceStr
@@ -273,7 +264,6 @@ class VectorPath(
     // At each crossing, the ray switches between inside and outside. This is called the Jordan curve theorem.
     fun containsPoint(x: Double, y: Double): Boolean = trapezoids.containsPoint(x, y, this.winding)
     override fun containsPoint(p: Point): Boolean = containsPoint(p.x, p.y, this.winding)
-    fun containsPoint(p: MPoint): Boolean = containsPoint(p.x, p.y, this.winding)
     fun containsPoint(x: Int, y: Int): Boolean = containsPoint(x.toDouble(), y.toDouble())
     fun containsPoint(x: Float, y: Float): Boolean = containsPoint(x.toDouble(), y.toDouble())
 

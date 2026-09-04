@@ -6,7 +6,6 @@ import korlibs.datastructure.Extra
 import korlibs.math.geom.Circle
 import korlibs.math.geom.Ellipse
 import korlibs.math.geom.Line
-import korlibs.math.geom.MPoint
 import korlibs.math.geom.Matrix
 import korlibs.math.geom.Point
 import korlibs.math.geom.PointArrayList
@@ -103,7 +102,7 @@ fun VectorPath.toShape2DOld(closed: Boolean = true): Shape2D {
     }
 }
 
-fun List<MPoint>.containsPoint(x: Double, y: Double): Boolean {
+fun List<Point>.containsPoint(x: Double, y: Double): Boolean {
     var intersections = 0
     for (n in 0 until this.size - 1) {
         val p1 = this[n + 0]

@@ -1,6 +1,5 @@
 package korlibs.math.geom.bezier
 
-import korlibs.math.geom.MPoint
 import korlibs.math.geom.Point
 import korlibs.math.geom.PointList
 import korlibs.math.isAlmostEquals
@@ -30,7 +29,6 @@ private fun <T : Any> T?.isAlmostEqualsGeneric(
     if (e == null || a == null) return (e == null) && (a == null)
     return when (e) {
         is Point -> e.isAlmostEquals((a as? Point?) ?: return false, absoluteTolerance)
-        is MPoint -> e.isAlmostEquals((a as? MPoint?) ?: return false, absoluteTolerance)
         is Float -> {
             if (a !is Float?) return false
             if (e.isNaN() && a.isNaN()) return true

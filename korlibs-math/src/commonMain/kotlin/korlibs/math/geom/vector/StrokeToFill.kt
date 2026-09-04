@@ -4,7 +4,6 @@ import korlibs.datastructure.IntArrayList
 import korlibs.math.annotations.KormaExperimental
 import korlibs.math.clamp
 import korlibs.math.geom.Angle
-import korlibs.math.geom.MPoint
 import korlibs.math.geom.Point
 import korlibs.math.geom.PointIntArrayList
 import korlibs.math.geom.bezier.Bezier
@@ -116,7 +115,7 @@ class StrokeToFill {
                     l.add(lx2, ly2)
                     r.add(rx2, ry2)
                 } else {
-                    val count = (MPoint.distance(lx, ly, rx, ry) * scale).toInt().clamp(4, 64)
+                    val count = (Point.distance(lx, ly, rx, ry) * scale).toInt().clamp(4, 64)
                     l.add(lx, ly)
                     for (n in 0 .. count) {
                         val m = if (epoint == EdgePoint.A) n else count - n

@@ -1,7 +1,6 @@
 package korlibs.math.geom.vector
 
 import korlibs.math.annotations.KorDslMarker
-import korlibs.math.annotations.KormaExperimental
 import korlibs.math.annotations.RootViewDslMarker
 import korlibs.math.annotations.VectorDslMarker
 import korlibs.math.annotations.ViewDslMarker
@@ -15,16 +14,13 @@ import korlibs.math.geom.Rectangle
 import korlibs.math.geom.RectangleInt
 import korlibs.math.geom.RoundRectangle
 import korlibs.math.geom.Size
-import korlibs.math.geom.Vector2D
 import korlibs.math.geom.bezier.Arc
 import korlibs.math.geom.bezier.Bezier
 import korlibs.math.geom.bezier.Curves
 import korlibs.math.geom.bezier.toVectorPath
 import korlibs.math.geom.degrees
 import korlibs.math.geom.minus
-import korlibs.math.geom.pointArrayListOf
 import korlibs.math.geom.toPointArrayList
-import korlibs.math.geom.vector.write
 
 @KorDslMarker
 @ViewDslMarker

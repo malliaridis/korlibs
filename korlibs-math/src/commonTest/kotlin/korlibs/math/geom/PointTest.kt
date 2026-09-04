@@ -1,12 +1,10 @@
 package korlibs.math.geom
 
-import korlibs.math.annotations.KormaExperimental
 import korlibs.math.isAlmostEquals
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-@OptIn(KormaExperimental::class)
 class PointTest {
     @Test
     fun testPointCreation() {
@@ -31,9 +29,6 @@ class PointTest {
 
     @Test
     fun testPointArithmetic() {
-        //val a = Point(1, 2) + Point(3, 4)
-        //println(a.x)
-        //println(a.y)
         assertEquals(Point(4, 6), Point(1, 2) + Point(3, 4))
     }
 

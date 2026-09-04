@@ -1,7 +1,9 @@
 package korlibs.math.geom
 
+import korlibs.annotations.ExperimentalKorlibsApi
 import kotlin.jvm.JvmInline
 
+@ExperimentalKorlibsApi
 @JvmInline
 value class BoundsBuilder(val bounds: Rectangle) {
     val isEmpty: Boolean get() = bounds.isNIL

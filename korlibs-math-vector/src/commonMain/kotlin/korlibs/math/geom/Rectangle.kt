@@ -18,21 +18,8 @@ import kotlin.math.round
 
 typealias RectangleD = Rectangle
 
-//@KormaValueApi
-//inline class Rectangle(val data: Float4Pack) : Shape2D, Interpolable<Rectangle> {
-//inline class Rectangle(val data: Float4) : Shape2D {
 data class Rectangle(val x: Double, val y: Double, val width: Double, val height: Double) : SimpleShape2D, IsAlmostEquals<Rectangle> {
     val int: RectangleInt get() = toInt()
-
-    //operator fun component1(): Float = x
-    //operator fun component2(): Float = y
-    //operator fun component3(): Float = width
-    //operator fun component4(): Float = height
-    //val x: Float get() = data.f0
-    //val y: Float get() = data.f1
-    //val width: Float get() = data.f2
-    //val height: Float get() = data.f3
-    //fun copy(x: Float = this.x, y: Float = this.y, width: Float = this.width, height: Float = this.height): Rectangle = Rectangle(x, y, width, height)
 
     @Deprecated("", ReplaceWith("this")) fun clone(): Rectangle = this
     @Deprecated("", ReplaceWith("this")) val immutable: Rectangle get() = this
@@ -56,8 +43,6 @@ data class Rectangle(val x: Double, val y: Double, val width: Double, val height
     fun toStringBounds(): String = "Rectangle([${left.niceStr},${top.niceStr}]-[${right.niceStr},${bottom.niceStr}])"
     fun toStringSize(): String = "Rectangle([${left.niceStr},${top.niceStr}],[${width.niceStr},${height.niceStr}])"
     fun toStringCompat(): String = "Rectangle(x=${left.niceStr}, y=${top.niceStr}, w=${width.niceStr}, h=${height.niceStr})"
-
-    //override fun interpolateWith(ratio: Ratio, other: Rectangle): Rectangle = interpolated(this, other, ratio)
 
     override fun toString(): String = when {
         isNIL -> "null"
@@ -154,20 +139,6 @@ data class Rectangle(val x: Double, val y: Double, val width: Double, val height
             d3 -> p3
             else -> p0
         }
-
-        //val px = p.x.clamp(left, right)
-        //val py = p.y.clamp(top, bottom)
-        //val distTop = (py - top).absoluteValue
-        //val distBottom = (py - bottom).absoluteValue
-        //val minDistY = min(distTop, distBottom)
-        //val distLeft = (px - left).absoluteValue
-        //val distRight = (px - right).absoluteValue
-        //val minDistX = min(distLeft, distRight)
-        //if (minDistX < minDistY) {
-        //    return Point(if (distLeft < distRight) left else right, py)
-        //} else {
-        //    return Point(px, if (distTop < distBottom) top else bottom)
-        //}
     }
 
     val isEmpty: Boolean get() = width == 0.0 && height == 0.0
@@ -293,9 +264,3 @@ fun Rectangle.place(item: Size, anchor: Anchor, scale: ScaleMode): Rectangle {
     val p = (this.size - outSize) * anchor
     return Rectangle(p, outSize)
 }
-
-//fun RectangleInt.place(item: SizeInt, anchor: Anchor, scale: ScaleMode): RectangleInt {
-//    val outSize = scale(item, this.size)
-//    val p = (this.size - outSize) * anchor
-//    return RectangleInt(p, outSize)
-//}

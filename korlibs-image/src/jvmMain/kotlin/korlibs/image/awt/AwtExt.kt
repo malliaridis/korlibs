@@ -6,7 +6,7 @@ import java.awt.Graphics
 import java.awt.Graphics2D
 import java.awt.GraphicsEnvironment
 import java.awt.HeadlessException
-import java.awt.Point
+import java.awt.Point as AwtPoint
 import java.awt.RenderingHints
 import java.awt.event.WindowAdapter
 import java.awt.event.WindowEvent
@@ -27,7 +27,7 @@ import korlibs.image.format.ImageDecodingProps
 import korlibs.io.async.ResourceDecoder
 import korlibs.math.awt.toKorma
 import korlibs.math.geom.Anchor
-import korlibs.math.geom.MPoint
+import korlibs.math.geom.Point
 import korlibs.math.geom.ScaleMode
 import korlibs.math.geom.Size
 import korlibs.math.geom.place
@@ -50,7 +50,7 @@ fun Bitmap32.toAwt(
 }
 
 @Suppress("unused")
-fun MPoint.toAwt(): Point = Point(x.toIntRound(), y.toIntRound())
+fun Point.toAwt(): AwtPoint = AwtPoint(x.toIntRound(), y.toIntRound())
 
 fun Bitmap.toAwt(
     out: BufferedImage = BufferedImage(

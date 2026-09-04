@@ -5,7 +5,6 @@ import korlibs.datastructure.binarySearch
 import korlibs.math.convertRange
 import korlibs.math.geom.Point
 import korlibs.math.geom.PointArrayList
-import korlibs.math.geom.Vector2D
 import korlibs.math.interpolation.Ratio
 import korlibs.math.interpolation.interpolate
 import korlibs.math.interpolation.niceStr

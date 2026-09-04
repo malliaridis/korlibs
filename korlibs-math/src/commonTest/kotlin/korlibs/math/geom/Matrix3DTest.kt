@@ -177,12 +177,12 @@ class Matrix3DTest {
 
     @Test
     fun testGetTRS() {
-        val pos = MPosition3D()
+        val pos = Position3D()
         val quat = Ref<Quaternion>()
-        val scale = MScale3D()
+        val scale = Scale3D()
         transMat.getTRS(pos, quat, scale)
 
-        assertEquals(MPosition3D(1, 2, 3), pos)
+        assertEquals(Position3D(1, 2, 3), pos)
     }
 
     @Test
